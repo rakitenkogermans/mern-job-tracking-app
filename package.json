@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/server.js",
-    "dev": "concurrently \"npx tsc -w\" \"nodemon -q dist/server.js\""
+    "client": "npm start --prefix client",
+    "server": "node dist/server.js",
+    "start": "concurrently --kill-others-on-fail \" npm run dev\" \" npm run client\"",
+    "dev": "concurrently \"npx tsc -w\" \"nodemon -q dist/server.js --ignore client\""
   },
   "repository": {
     "type": "git",

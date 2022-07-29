@@ -47,5 +47,6 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.25",
     "prettier": "^2.7.1"
-  }
+  },
+  "proxy": "http://localhost:9000"
 }

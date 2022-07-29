@@ -1,6 +1,6 @@
 import { AppAction, AppActionTypes } from './actions';
-import { StateType } from './appContext';
 import React from 'react';
+import { StateType } from '../types/types';
 
 const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
     if (action.type === AppActionTypes.DISPLAY_ALERT) {
@@ -11,6 +11,7 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             alertText: 'Please provide all values!',
         };
     }
+
     if (action.type === AppActionTypes.CLEAR_ALERT) {
         return {
             ...state,
@@ -19,6 +20,35 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             alertText: '',
         };
     }
+
+    if (action.type === AppActionTypes.REGISTER_USER_BEGIN) {
+        return { ...state, isLoading: true };
+    }
+
+    if (action.type === AppActionTypes.REGISTER_USER_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            token: action.payload?.token || null,
+            user: action.payload?.user || null,
+            userLocation: action.payload?.location || '',
+            jobLocation: action.payload?.location || '',
+            showAlert: true,
+            alertType: 'success',
+            alertText: 'User created! Redirecting...',
+        };
+    }
+
+    if (action.type === AppActionTypes.REGISTER_USER_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: action.payload.msg,
+        };
+    }
+
     throw new Error(`no such action :${action.type}`);
 };
 
