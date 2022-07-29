@@ -1,8 +1,10 @@
 import { Schema, model } from 'mongoose';
 import { IUser } from '../types/User';
 import validator from 'validator';
+import { NextFunction } from 'express';
+import { genSalt, hash } from 'bcryptjs';
 
-const UserSchema: Schema = new Schema({
+const UserSchema: Schema = new Schema<IUser>({
     name: {
         type: String,
         required: [true, 'Please provide name'],
@@ -36,6 +38,12 @@ const UserSchema: Schema = new Schema({
         maxLength: 20,
         default: 'my city',
     },
+});
+
+UserSchema.pre('save', async function (this: IUser, next: NextFunction) {
+    const salt = await genSalt(10);
+    this.password = await hash(this.password, salt);
+    next();
 });
 
 export default model<IUser>('User', UserSchema);
