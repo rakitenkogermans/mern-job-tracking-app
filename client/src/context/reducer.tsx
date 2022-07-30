@@ -21,11 +21,11 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
         };
     }
 
-    if (action.type === AppActionTypes.REGISTER_USER_BEGIN) {
+    if (action.type === AppActionTypes.SETUP_USER_BEGIN) {
         return { ...state, isLoading: true };
     }
 
-    if (action.type === AppActionTypes.REGISTER_USER_SUCCESS) {
+    if (action.type === AppActionTypes.SETUP_USER_SUCCESS) {
         return {
             ...state,
             isLoading: false,
@@ -35,11 +35,11 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             jobLocation: action.payload?.location || '',
             showAlert: true,
             alertType: 'success',
-            alertText: 'User created! Redirecting...',
+            alertText: action.payload.alertText,
         };
     }
 
-    if (action.type === AppActionTypes.REGISTER_USER_ERROR) {
+    if (action.type === AppActionTypes.SETUP_USER_ERROR) {
         return {
             ...state,
             isLoading: false,

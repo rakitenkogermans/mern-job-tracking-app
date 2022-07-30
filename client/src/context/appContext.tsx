@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import reducer from './reducer';
 import { AppActionTypes } from './actions';
-import { CurrentUser, ResponseUser, StateType } from '../types/types';
+import { ResponseUser, SetupUserType, StateType } from '../types/types';
 
 const user = localStorage.getItem('user');
 const token = localStorage.getItem('token');
@@ -13,7 +13,7 @@ const initialState: StateType = {
     alertText: '',
     alertType: null,
     displayAlert: function () {},
-    registerUser: async function () {},
+    setupUser: async function () {},
     user: user ? JSON.parse(user) : null,
     token: token,
     userLocation: userLocation || '',
@@ -50,10 +50,59 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         localStorage.removeItem('location');
     };
 
-    const registerUser = async (currentUser: CurrentUser) => {
-        dispatch({ type: AppActionTypes.REGISTER_USER_BEGIN });
+    //
+    // const registerUser = async (currentUser: CurrentUser) => {
+    //     dispatch({ type: AppActionTypes.REGISTER_USER_BEGIN });
+    //     try {
+    //         const response = await fetch('/api/v1/auth/register', {
+    //             method: 'POST',
+    //             body: JSON.stringify(currentUser),
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         });
+    //         const data = await response.json();
+    //         if (!response.ok) {
+    //             throw new Error(data.msg);
+    //         }
+    //         const { user, token, location } = data;
+    //         dispatch({ type: AppActionTypes.REGISTER_USER_SUCCESS, payload: { user, token, location } });
+    //         addUserToLocalStorage({ user, token, location });
+    //     } catch (err) {
+    //         console.log(err);
+    //         if (err instanceof Error) dispatch({ type: AppActionTypes.REGISTER_USER_ERROR, payload: { msg: err.message } });
+    //     }
+    //     clearAlert();
+    // };
+    //
+    // const loginUser = async (currentUser: CurrentUser) => {
+    //     dispatch({ type: AppActionTypes.LOGIN_USER_BEGIN });
+    //     try {
+    //         const response = await fetch('/api/v1/auth/login', {
+    //             method: 'POST',
+    //             body: JSON.stringify(currentUser),
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         });
+    //         const data = await response.json();
+    //         if (!response.ok) {
+    //             throw new Error(data.msg);
+    //         }
+    //         const { user, token, location } = data;
+    //         dispatch({ type: AppActionTypes.LOGIN_USER_SUCCESS, payload: { user, token, location } });
+    //         addUserToLocalStorage({ user, token, location });
+    //     } catch (err) {
+    //         console.log(err);
+    //         if (err instanceof Error) dispatch({ type: AppActionTypes.LOGIN_USER_ERROR, payload: { msg: err.message } });
+    //     }
+    //     clearAlert();
+    // };
+
+    const setupUser = async ({ currentUser, endPoint, alertText }: SetupUserType) => {
+        dispatch({ type: AppActionTypes.SETUP_USER_BEGIN });
         try {
-            const response = await fetch('/api/v1/auth/register', {
+            const response = await fetch(`/api/v1/auth/${endPoint}`, {
                 method: 'POST',
                 body: JSON.stringify(currentUser),
                 headers: {
@@ -65,16 +114,16 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 throw new Error(data.msg);
             }
             const { user, token, location } = data;
-            dispatch({ type: AppActionTypes.REGISTER_USER_SUCCESS, payload: { user, token, location } });
+            dispatch({ type: AppActionTypes.SETUP_USER_SUCCESS, payload: { user, token, location, alertText } });
             addUserToLocalStorage({ user, token, location });
         } catch (err) {
             console.log(err);
-            if (err instanceof Error) dispatch({ type: AppActionTypes.REGISTER_USER_ERROR, payload: { msg: err.message } });
+            if (err instanceof Error) dispatch({ type: AppActionTypes.SETUP_USER_ERROR, payload: { msg: err.message } });
         }
         clearAlert();
     };
 
-    return <AppContext.Provider value={{ ...state, displayAlert, registerUser }}>{children}</AppContext.Provider>;
+    return <AppContext.Provider value={{ ...state, displayAlert, setupUser }}>{children}</AppContext.Provider>;
 };
 
 const useAppContext = () => {

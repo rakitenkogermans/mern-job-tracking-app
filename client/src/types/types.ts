@@ -5,7 +5,7 @@ export interface ResponseUser {
 }
 
 export type CurrentUser = {
-    name: string;
+    name?: string;
     email: string;
     password: string;
 };
@@ -23,9 +23,11 @@ export type StateType = {
     alertText: string;
     alertType: 'danger' | 'success' | null;
     displayAlert: () => void;
-    registerUser: (currentUser: CurrentUser) => Promise<void>;
+    setupUser: ({ currentUser, endPoint, alertText }: SetupUserType) => Promise<void>;
     user: User | null;
     token: string | null;
     userLocation: string;
     jobLocation: string;
 };
+
+export type SetupUserType = { currentUser: CurrentUser; endPoint: string; alertText: string };

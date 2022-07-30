@@ -14,7 +14,7 @@ const initialState = {
 const Register = () => {
     const [values, setvalues] = useState(initialState);
     const navigate = useNavigate();
-    const { user, isLoading, showAlert, displayAlert, registerUser } = useAppContext();
+    const { user, isLoading, showAlert, displayAlert, setupUser } = useAppContext();
 
     useEffect(() => {
         if (user) {
@@ -37,11 +37,10 @@ const Register = () => {
         }
         const currentUser = { name, email, password };
         if (isMember) {
-            console.log('already a member');
+            await setupUser({ currentUser, endPoint: 'login', alertText: 'Login successful! Redirecting...' });
         } else {
-            await registerUser(currentUser);
+            await setupUser({ currentUser, endPoint: 'register', alertText: 'User created! Redirecting...' });
         }
-        // setvalues(initialState);
     };
 
     const toggleMember = () => {

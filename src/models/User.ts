@@ -1,11 +1,11 @@
 import { Schema, model } from 'mongoose';
-import { IUser } from '../types/User';
+import { IUserModel } from '../types/User';
 import validator from 'validator';
 import { NextFunction } from 'express';
-import { genSalt, hash } from 'bcryptjs';
+import { compare, genSalt, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
-const UserSchema: Schema = new Schema<IUser>({
+const UserSchema: Schema = new Schema<IUserModel>({
     name: {
         type: String,
         required: [true, 'Please provide name'],
@@ -42,16 +42,23 @@ const UserSchema: Schema = new Schema<IUser>({
     },
 });
 
-UserSchema.pre('save', async function (this: IUser, next: NextFunction) {
+UserSchema.pre('save', async function (this: IUserModel, next: NextFunction) {
     const salt = await genSalt(10);
     this.password = await hash(this.password, salt);
-    next();
+    return next();
 });
 
-UserSchema.methods.createJWT = function (this: IUser) {
-    return sign({ userId: this._id }, process.env.JWT_SECRET || '', {
+UserSchema.methods.createJWT = function () {
+    const user = this as IUserModel;
+    return sign({ userId: user._id }, process.env.JWT_SECRET || '', {
         expiresIn: process.env.JWT_LIFETIME,
     });
 };
 
-export default model<IUser>('User', UserSchema);
+UserSchema.methods.comparePassword = async function (candidatePassword: string) {
+    const user = this as IUserModel;
+    const isMatch = await compare(candidatePassword, user.password);
+    return isMatch;
+};
+
+export default model<IUserModel>('User', UserSchema);
