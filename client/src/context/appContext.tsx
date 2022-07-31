@@ -18,6 +18,9 @@ const initialState: StateType = {
     token: token,
     userLocation: userLocation || '',
     jobLocation: userLocation || '',
+    showSidebar: false,
+    toggleSidebar: function () {},
+    logoutUser: function () {},
 };
 
 const AppContext = createContext<StateType>(initialState);
@@ -123,7 +126,16 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         clearAlert();
     };
 
-    return <AppContext.Provider value={{ ...state, displayAlert, setupUser }}>{children}</AppContext.Provider>;
+    const toggleSidebar = () => {
+        dispatch({ type: AppActionTypes.TOGGLE_SIDEBAR });
+    };
+
+    const logoutUser = () => {
+        dispatch({ type: AppActionTypes.LOGOUT_USER });
+        removeUserFromLocalStorage();
+    };
+
+    return <AppContext.Provider value={{ ...state, displayAlert, setupUser, toggleSidebar, logoutUser }}>{children}</AppContext.Provider>;
 };
 
 const useAppContext = () => {

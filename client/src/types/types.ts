@@ -28,6 +28,9 @@ export type StateType = {
     token: string | null;
     userLocation: string;
     jobLocation: string;
+    showSidebar: boolean;
+    toggleSidebar: () => void;
+    logoutUser: () => void;
 };
 
 export type SetupUserType = { currentUser: CurrentUser; endPoint: string; alertText: string };

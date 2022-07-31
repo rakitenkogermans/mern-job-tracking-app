@@ -1,6 +1,7 @@
 import { AppAction, AppActionTypes } from './actions';
 import React from 'react';
 import { StateType } from '../types/types';
+import { initialState } from './appContext';
 
 const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
     if (action.type === AppActionTypes.DISPLAY_ALERT) {
@@ -47,6 +48,17 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             alertType: 'danger',
             alertText: action.payload.msg,
         };
+    }
+
+    if (action.type === AppActionTypes.TOGGLE_SIDEBAR) {
+        return {
+            ...state,
+            showSidebar: !state.showSidebar,
+        };
+    }
+
+    if (action.type === AppActionTypes.LOGOUT_USER) {
+        return { ...initialState, user: null, token: null, userLocation: '', jobLocation: '' };
     }
 
     throw new Error(`no such action :${action.type}`);
