@@ -1,0 +1,21 @@
+import { Request, Response, NextFunction } from 'express';
+import { UnAuthenticatedError } from '../errors';
+import { verify } from 'jsonwebtoken';
+
+const auth = (req: Request, res: Response, next: NextFunction) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer')) {
+        throw new UnAuthenticatedError('Authentication Invalid');
+    }
+    const token = authHeader.split(' ')[1];
+    try {
+        const payload: any = verify(token, process.env.JWT_SECRET || '');
+
+        req.body.user = { userId: payload.userId };
+        next();
+    } catch (err) {
+        throw new UnAuthenticatedError('Authentication Invalid');
+    }
+};
+
+export default auth;

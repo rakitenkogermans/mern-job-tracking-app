@@ -43,6 +43,7 @@ const UserSchema: Schema = new Schema<IUserModel>({
 });
 
 UserSchema.pre('save', async function (this: IUserModel, next: NextFunction) {
+    if (!this.isModified('password')) return;
     const salt = await genSalt(10);
     this.password = await hash(this.password, salt);
     return next();

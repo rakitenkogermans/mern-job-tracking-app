@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import notFoundMiddleware from './middleware/not-found';
 import errorHandlerMiddleware from './middleware/error-handler';
+import authenticateUser from './middleware/auth';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import connectDB from './db/connect';
@@ -23,7 +24,7 @@ app.get('/api/v1', (req: Request, res: Response) => {
 });
 
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/jobs', jobsRouter);
+app.use('/api/v1/jobs', authenticateUser, jobsRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
