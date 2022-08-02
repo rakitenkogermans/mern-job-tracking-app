@@ -1,8 +1,11 @@
-export interface ResponseUser {
-    user: User;
+export type UserId = {
+    _id: string;
+};
+export type ResponseUser = {
+    user: User & UserId;
     token: string;
     location: string;
-}
+};
 
 export type CurrentUser = {
     name?: string;
@@ -31,6 +34,7 @@ export type StateType = {
     showSidebar: boolean;
     toggleSidebar: () => void;
     logoutUser: () => void;
+    updateUser: (currentUser: User) => Promise<void>;
 };
 
 export type SetupUserType = { currentUser: CurrentUser; endPoint: string; alertText: string };

@@ -50,6 +50,34 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
         };
     }
 
+    if (action.type === AppActionTypes.UPDATE_USER_BEGIN) {
+        return { ...state, isLoading: true };
+    }
+
+    if (action.type === AppActionTypes.UPDATE_USER_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            token: action.payload?.token || null,
+            user: action.payload?.user || null,
+            userLocation: action.payload?.location || '',
+            jobLocation: action.payload?.location || '',
+            showAlert: true,
+            alertType: 'success',
+            alertText: 'User Profile Updated',
+        };
+    }
+
+    if (action.type === AppActionTypes.UPDATE_USER_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: action.payload.msg,
+        };
+    }
+
     if (action.type === AppActionTypes.TOGGLE_SIDEBAR) {
         return {
             ...state,
