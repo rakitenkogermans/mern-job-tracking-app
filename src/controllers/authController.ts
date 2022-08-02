@@ -21,6 +21,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
         res.status(StatusCodes.OK).json({
             user: {
+                _id: user._id,
                 email: user.email,
                 lastName: user.lastName,
                 location: user.location,
@@ -48,6 +49,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
         const token = user.createJWT();
         res.status(StatusCodes.CREATED).json({
             user: {
+                _id: user._id,
                 email: user.email,
                 lastName: user.lastName,
                 location: user.location,
