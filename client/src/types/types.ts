@@ -30,11 +30,24 @@ export type StateType = {
     user: User | null;
     token: string | null;
     userLocation: string;
-    jobLocation: string;
+
     showSidebar: boolean;
     toggleSidebar: () => void;
     logoutUser: () => void;
     updateUser: (currentUser: User) => Promise<void>;
+
+    isEditing: boolean;
+    editJobId: string;
+    position: string;
+    company: string;
+    jobLocation: string;
+    jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'];
+    jobType: 'full-time' | 'part-time' | 'remote' | 'internship';
+    statusOptions: ['pending', 'interview', 'declined'];
+    status: 'pending' | 'interview' | 'declined';
+    handleChange: (name: string, value: string) => void;
+    clearValues: () => void;
+    createJob: () => Promise<void>;
 };
 
 export type SetupUserType = { currentUser: CurrentUser; endPoint: string; alertText: string };

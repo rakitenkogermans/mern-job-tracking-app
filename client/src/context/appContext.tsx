@@ -18,11 +18,24 @@ const initialState: StateType = {
     user: user ? JSON.parse(user) : null,
     token: token,
     userLocation: userLocation || '',
-    jobLocation: userLocation || '',
+
     showSidebar: false,
     toggleSidebar: function () {},
     logoutUser: function () {},
     updateUser: async function () {},
+
+    isEditing: false,
+    editJobId: '',
+    position: '',
+    company: '',
+    jobLocation: userLocation || '',
+    jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
+    jobType: 'full-time',
+    statusOptions: ['pending', 'interview', 'declined'],
+    status: 'pending',
+    handleChange: function () {},
+    clearValues: function () {},
+    createJob: async function () {},
 };
 
 const AppContext = createContext<StateType>(initialState);
@@ -128,7 +141,38 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         clearAlert();
     };
 
-    return <AppContext.Provider value={{ ...state, displayAlert, setupUser, toggleSidebar, logoutUser, updateUser }}>{children}</AppContext.Provider>;
+    const handleChange = (name: string, value: string) => {
+        dispatch({ type: AppActionTypes.HANDLE_CHANGE, payload: { name, value } });
+    };
+
+    const clearValues = () => {
+        dispatch({ type: AppActionTypes.CLEAR_VALUES });
+    };
+
+    const createJob = async () => {
+        dispatch({ type: AppActionTypes.CREATE_JOB_BEGIN });
+        try {
+            const { position, company, jobLocation, jobType, status } = state;
+            await authFetch.post('/jobs', { position, company, jobLocation, jobType, status });
+            dispatch({ type: AppActionTypes.CREATE_JOB_SUCCESS });
+            clearValues();
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                if (err.response?.status !== 401) {
+                    dispatch({ type: AppActionTypes.CREATE_JOB_ERROR, payload: { msg: err.response?.data.msg } });
+                }
+            }
+        }
+        clearAlert();
+    };
+
+    return (
+        <AppContext.Provider
+            value={{ ...state, displayAlert, setupUser, toggleSidebar, logoutUser, updateUser, handleChange, clearValues, createJob }}
+        >
+            {children}
+        </AppContext.Provider>
+    );
 };
 
 const useAppContext = () => {

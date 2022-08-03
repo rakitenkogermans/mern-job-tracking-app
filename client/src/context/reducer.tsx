@@ -89,6 +89,45 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
         return { ...initialState, user: null, token: null, userLocation: '', jobLocation: '' };
     }
 
+    if (action.type === AppActionTypes.HANDLE_CHANGE) {
+        return { ...state, [action.payload.name]: action.payload.value };
+    }
+
+    if (action.type === AppActionTypes.CLEAR_VALUES) {
+        return {
+            ...state,
+            isEditing: false,
+            editJobId: '',
+            position: '',
+            company: '',
+            jobLocation: state.userLocation,
+            jobType: 'full-time',
+            status: 'pending',
+        };
+    }
+
+    if (action.type === AppActionTypes.CREATE_JOB_BEGIN) {
+        return { ...state, isLoading: true };
+    }
+    if (action.type === AppActionTypes.CREATE_JOB_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'success',
+            alertText: 'New Job Created!',
+        };
+    }
+    if (action.type === AppActionTypes.CREATE_JOB_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: action.payload.msg,
+        };
+    }
+
     throw new Error(`no such action :${action.type}`);
 };
 

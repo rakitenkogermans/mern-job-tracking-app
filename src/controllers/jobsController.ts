@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import { BadRequestError, UnAuthenticatedError } from '../errors';
 import Job from '../models/Job';
 import { StatusCodes } from '../constants/statusCodes';
 
-const createJob = async (req: Request, res: Response, next: NextFunction) => {
+const createJob: RequestHandler = async (req, res, next) => {
     try {
         const { company, position, status, jobType, jobLocation } = req.body;
         if (!company || !position) {
@@ -17,19 +17,24 @@ const createJob = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const deleteJob = async (req: Request, res: Response, next: NextFunction) => {
+const deleteJob: RequestHandler = async (req, res, next) => {
     res.send('delete job');
 };
 
-const getAllJobs = async (req: Request, res: Response, next: NextFunction) => {
-    res.send('get all jobs');
+const getAllJobs: RequestHandler = async (req, res, next) => {
+    try {
+        const jobs = await Job.find({ createdBy: req.body.user.userId });
+        res.status(StatusCodes.OK).json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
+    } catch (err) {
+        next(err);
+    }
 };
 
-const updateJob = async (req: Request, res: Response, next: NextFunction) => {
+const updateJob: RequestHandler = async (req, res, next) => {
     res.send('update job');
 };
 
-const showStats = async (req: Request, res: Response) => {
+const showStats: RequestHandler = async (req, res, next) => {
     res.send('show stats');
 };
 
