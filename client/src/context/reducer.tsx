@@ -128,6 +128,14 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
         };
     }
 
+    if (action.type === AppActionTypes.GET_JOB_BEGIN) {
+        return { ...state, isLoading: true, showAlert: false };
+    }
+
+    if (action.type === AppActionTypes.GET_JOB_SUCCESS) {
+        return { ...state, isLoading: false, jobs: action.payload.jobs, totalJobs: action.payload.totalJobs, numOfPages: action.payload.numOfPages };
+    }
+
     throw new Error(`no such action :${action.type}`);
 };
 

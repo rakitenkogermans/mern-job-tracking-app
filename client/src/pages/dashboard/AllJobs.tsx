@@ -1,9 +1,15 @@
 import React from 'react';
+import { JobsContainer, SearchContainer } from '../../components';
 
 type AllJobsProps = {};
 
 const AllJobs: React.FC<AllJobsProps> = ({}) => {
-    return <>AllJobs</>;
+    return (
+        <>
+            <SearchContainer />
+            <JobsContainer />
+        </>
+    );
 };
 
 export default AllJobs;

@@ -5,5 +5,10 @@ import Navbar from './Navbar';
 import SmallSidebar from './SmallSidebar';
 import BigSidebar from './BigSidebar';
 import FormRowSelect from './FormRowSelect';
+import SearchContainer from './SearchContainer';
+import JobsContainer from './JobsContainer';
+import JobInfo from './JobInfo';
+import Job from './Job';
+import Loading from './Loading';
 
-export { Logo, FormRow, Alert, Navbar, SmallSidebar, BigSidebar, FormRowSelect };
+export { Logo, FormRow, Alert, Navbar, SmallSidebar, BigSidebar, FormRowSelect, SearchContainer, JobsContainer, JobInfo, Job, Loading };

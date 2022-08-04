@@ -48,6 +48,26 @@ export type StateType = {
     handleChange: (name: string, value: string) => void;
     clearValues: () => void;
     createJob: () => Promise<void>;
+    jobs: JobType[];
+    totalJobs: number;
+    numOfPages: number;
+    page: number;
+    getJobs: () => Promise<void>;
+    setEditJob: (id: string) => void;
+    deleteJob: (id: string) => void;
+};
+
+export type JobType = {
+    _id: string;
+    company: string;
+    position: string;
+    status: string;
+    jobType: string;
+    jobLocation: string;
+    createdBy: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
 };
 
 export type SetupUserType = { currentUser: CurrentUser; endPoint: string; alertText: string };

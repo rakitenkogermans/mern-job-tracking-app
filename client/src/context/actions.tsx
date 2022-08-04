@@ -14,6 +14,8 @@ export enum AppActionTypes {
     CREATE_JOB_BEGIN = 'CREATE_JOB_BEGIN',
     CREATE_JOB_SUCCESS = 'CREATE_JOB_SUCCESS',
     CREATE_JOB_ERROR = 'CREATE_JOB_ERROR',
+    GET_JOB_BEGIN = 'GET_JOB_BEGIN',
+    GET_JOB_SUCCESS = 'GET_JOB_SUCCESS',
 }
 
 export interface AppAction {

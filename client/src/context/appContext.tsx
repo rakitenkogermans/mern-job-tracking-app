@@ -36,6 +36,13 @@ const initialState: StateType = {
     handleChange: function () {},
     clearValues: function () {},
     createJob: async function () {},
+    jobs: [],
+    totalJobs: 0,
+    numOfPages: 1,
+    page: 1,
+    getJobs: async function () {},
+    setEditJob: function () {},
+    deleteJob: function () {},
 };
 
 const AppContext = createContext<StateType>(initialState);
@@ -166,9 +173,45 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         clearAlert();
     };
 
+    const getJobs = async () => {
+        let url = `/jobs`;
+        dispatch({ type: AppActionTypes.GET_JOB_BEGIN });
+
+        try {
+            const { data } = await authFetch.get(url);
+            const { jobs, totalJobs, numOfPages } = data;
+            dispatch({ type: AppActionTypes.GET_JOB_SUCCESS, payload: { jobs, totalJobs, numOfPages } });
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.log(err.response);
+            }
+        }
+    };
+
+    const setEditJob = (id: string) => {
+        console.log(`set edit job: ${id}`);
+    };
+
+    const deleteJob = (id: string) => {
+        console.log(`delete job: ${id}`);
+    };
+
     return (
         <AppContext.Provider
-            value={{ ...state, displayAlert, setupUser, toggleSidebar, logoutUser, updateUser, handleChange, clearValues, createJob }}
+            value={{
+                ...state,
+                displayAlert,
+                setupUser,
+                toggleSidebar,
+                logoutUser,
+                updateUser,
+                handleChange,
+                clearValues,
+                createJob,
+                getJobs,
+                setEditJob,
+                deleteJob,
+            }}
         >
             {children}
         </AppContext.Provider>
