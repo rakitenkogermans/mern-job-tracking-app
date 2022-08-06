@@ -20,6 +20,19 @@ export type User = {
     name: string;
 };
 
+export enum JobTypeEnum {
+    FULL_TIME = 'full-time',
+    PART_TIME = 'part-time',
+    REMOTE = 'remote',
+    INTERNSHIP = 'internship',
+}
+
+export enum StatusEnum {
+    PENDING = 'pending',
+    INTERVIEW = 'interview',
+    DECLINED = 'declined',
+}
+
 export type StateType = {
     isLoading: boolean;
     showAlert: boolean;
@@ -41,10 +54,10 @@ export type StateType = {
     position: string;
     company: string;
     jobLocation: string;
-    jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'];
-    jobType: 'full-time' | 'part-time' | 'remote' | 'internship';
-    statusOptions: ['pending', 'interview', 'declined'];
-    status: 'pending' | 'interview' | 'declined';
+    jobTypeOptions: typeof JobTypeEnum;
+    jobType: JobTypeEnum;
+    statusOptions: typeof StatusEnum;
+    status: StatusEnum;
     handleChange: (name: string, value: string) => void;
     clearValues: () => void;
     createJob: () => Promise<void>;
@@ -55,19 +68,26 @@ export type StateType = {
     getJobs: () => Promise<void>;
     setEditJob: (id: string) => void;
     deleteJob: (id: string) => void;
+    editJob: () => void;
 };
 
 export type JobType = {
     _id: string;
     company: string;
     position: string;
-    status: string;
-    jobType: string;
+    status: StatusEnum;
+    jobType: JobTypeEnum;
     jobLocation: string;
     createdBy: string;
     createdAt: string;
     updatedAt: string;
     __v: number;
+};
+
+export type ResponseJob = {
+    jobs: JobType[];
+    totalJobs: string;
+    numOfPages: number | string;
 };
 
 export type SetupUserType = { currentUser: CurrentUser; endPoint: string; alertText: string };

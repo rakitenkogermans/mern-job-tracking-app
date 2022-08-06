@@ -1,6 +1,6 @@
 import { AppAction, AppActionTypes } from './actions';
 import React from 'react';
-import { StateType } from '../types/types';
+import { JobTypeEnum, StateType, StatusEnum } from '../types/types';
 import { initialState } from './appContext';
 
 const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
@@ -101,8 +101,8 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             position: '',
             company: '',
             jobLocation: state.userLocation,
-            jobType: 'full-time',
-            status: 'pending',
+            jobType: JobTypeEnum.FULL_TIME,
+            status: StatusEnum.PENDING,
         };
     }
 
@@ -134,6 +134,13 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
 
     if (action.type === AppActionTypes.GET_JOB_SUCCESS) {
         return { ...state, isLoading: false, jobs: action.payload.jobs, totalJobs: action.payload.totalJobs, numOfPages: action.payload.numOfPages };
+    }
+
+    if (action.type === AppActionTypes.SET_EDIT_JOB) {
+        const job = state.jobs.find((job) => job._id === action.payload.id);
+        if (!job) return { ...state };
+        const { _id, company, position, jobType, status, jobLocation } = job;
+        return { ...state, isEditing: true, editJobId: _id, company, position, jobType, status, jobLocation };
     }
 
     throw new Error(`no such action :${action.type}`);

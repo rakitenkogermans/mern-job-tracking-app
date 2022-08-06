@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { BadRequestError, UnAuthenticatedError } from '../errors';
+import { BadRequestError, NotFoundError, UnAuthenticatedError } from '../errors';
 import Job from '../models/Job';
 import { StatusCodes } from '../constants/statusCodes';
 
@@ -31,7 +31,26 @@ const getAllJobs: RequestHandler = async (req, res, next) => {
 };
 
 const updateJob: RequestHandler = async (req, res, next) => {
-    res.send('update job');
+    try {
+        const { id: jobId } = req.params;
+        const { company, position, status, jobType, jobLocation } = req.body;
+        if (!company || !position) {
+            throw new BadRequestError('Please provide all values');
+        }
+        const job = await Job.findOne({ _id: jobId });
+        if (!job) {
+            throw new NotFoundError(`No job with id: ${jobId}`);
+        }
+
+        const updatedJob = await Job.findOneAndUpdate(
+            { _id: jobId },
+            { company, position, status, jobType, jobLocation },
+            { new: true, runValidators: true }
+        );
+        res.status(StatusCodes.OK).json({ updatedJob });
+    } catch (err) {
+        next(err);
+    }
 };
 
 const showStats: RequestHandler = async (req, res, next) => {

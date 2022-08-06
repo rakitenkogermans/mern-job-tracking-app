@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import reducer from './reducer';
 import { AppActionTypes } from './actions';
-import { ResponseUser, SetupUserType, StateType, User } from '../types/types';
+import { JobTypeEnum, ResponseJob, ResponseUser, SetupUserType, StateType, StatusEnum, User } from '../types/types';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 const user = localStorage.getItem('user');
@@ -29,10 +29,10 @@ const initialState: StateType = {
     position: '',
     company: '',
     jobLocation: userLocation || '',
-    jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
-    jobType: 'full-time',
-    statusOptions: ['pending', 'interview', 'declined'],
-    status: 'pending',
+    jobTypeOptions: JobTypeEnum,
+    jobType: JobTypeEnum.FULL_TIME,
+    statusOptions: StatusEnum,
+    status: StatusEnum.PENDING,
     handleChange: function () {},
     clearValues: function () {},
     createJob: async function () {},
@@ -43,6 +43,7 @@ const initialState: StateType = {
     getJobs: async function () {},
     setEditJob: function () {},
     deleteJob: function () {},
+    editJob: function () {},
 };
 
 const AppContext = createContext<StateType>(initialState);
@@ -178,7 +179,7 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         dispatch({ type: AppActionTypes.GET_JOB_BEGIN });
 
         try {
-            const { data } = await authFetch.get(url);
+            const { data } = await authFetch.get<ResponseJob>(url);
             const { jobs, totalJobs, numOfPages } = data;
             dispatch({ type: AppActionTypes.GET_JOB_SUCCESS, payload: { jobs, totalJobs, numOfPages } });
         } catch (err) {
@@ -189,7 +190,11 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
 
     const setEditJob = (id: string) => {
-        console.log(`set edit job: ${id}`);
+        dispatch({ type: AppActionTypes.SET_EDIT_JOB, payload: { id } });
+    };
+
+    const editJob = () => {
+        console.log('edit job');
     };
 
     const deleteJob = (id: string) => {
@@ -211,6 +216,7 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 getJobs,
                 setEditJob,
                 deleteJob,
+                editJob,
             }}
         >
             {children}

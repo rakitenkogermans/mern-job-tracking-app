@@ -21,6 +21,7 @@ const AddJob: React.FC<AddJobProps> = ({}) => {
         clearValues,
         isLoading,
         createJob,
+        editJob,
     } = useAppContext();
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -31,7 +32,7 @@ const AddJob: React.FC<AddJobProps> = ({}) => {
             return;
         }
         if (isEditing) {
-            console.log('edit job');
+            editJob();
             return;
         }
         await createJob();
@@ -53,8 +54,14 @@ const AddJob: React.FC<AddJobProps> = ({}) => {
                     <FormRow type="text" name="position" value={position} handleChange={handleJobInput} />
                     <FormRow type="text" name="company" value={company} handleChange={handleJobInput} />
                     <FormRow type="text" labeltText="job location" name="jobLocation" value={jobLocation} handleChange={handleJobInput} />
-                    <FormRowSelect name="status" value={status} handleChange={handleJobInput} list={statusOptions} />
-                    <FormRowSelect labelText="job type" name="jobType" value={jobType} handleChange={handleJobInput} list={jobTypeOptions} />
+                    <FormRowSelect name="status" value={status} handleChange={handleJobInput} list={Object.values(statusOptions)} />
+                    <FormRowSelect
+                        labelText="job type"
+                        name="jobType"
+                        value={jobType}
+                        handleChange={handleJobInput}
+                        list={Object.values(jobTypeOptions)}
+                    />
                     <div className="btn-container">
                         <button className="btn btn-block submit-btn" type="submit" onClick={handleSubmit} disabled={isLoading}>
                             submit
