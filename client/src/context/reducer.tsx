@@ -143,6 +143,10 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
         return { ...state, isEditing: true, editJobId: _id, company, position, jobType, status, jobLocation };
     }
 
+    if (action.type === AppActionTypes.DELETE_JOB_BEGIN) {
+        return { ...state, isLoading: true };
+    }
+
     throw new Error(`no such action :${action.type}`);
 };
 

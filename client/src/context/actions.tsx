@@ -17,6 +17,7 @@ export enum AppActionTypes {
     GET_JOB_BEGIN = 'GET_JOB_BEGIN',
     GET_JOB_SUCCESS = 'GET_JOB_SUCCESS',
     SET_EDIT_JOB = 'SET_EDIT_JOB',
+    DELETE_JOB_BEGIN = 'DELETE_JOB_BEGIN',
 }
 
 export interface AppAction {

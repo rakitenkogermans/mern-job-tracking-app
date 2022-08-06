@@ -17,7 +17,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
     try {
         const payload: any = verify(token, process.env.JWT_SECRET || '');
 
-        res.locals = { userId: payload.userId };
+        res.locals.user = { userId: payload.userId };
         next();
     } catch (err) {
         throw new UnAuthenticatedError('Authentication Invalid');

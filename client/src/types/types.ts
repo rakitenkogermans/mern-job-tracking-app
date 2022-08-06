@@ -67,8 +67,8 @@ export type StateType = {
     page: number;
     getJobs: () => Promise<void>;
     setEditJob: (id: string) => void;
-    deleteJob: (id: string) => void;
-    editJob: () => void;
+    deleteJob: (id: string) => Promise<void>;
+    editJob: () => Promise<void>;
 };
 
 export type JobType = {

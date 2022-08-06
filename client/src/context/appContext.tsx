@@ -42,8 +42,8 @@ const initialState: StateType = {
     page: 1,
     getJobs: async function () {},
     setEditJob: function () {},
-    deleteJob: function () {},
-    editJob: function () {},
+    deleteJob: async function () {},
+    editJob: async function () {},
 };
 
 const AppContext = createContext<StateType>(initialState);
@@ -193,12 +193,21 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         dispatch({ type: AppActionTypes.SET_EDIT_JOB, payload: { id } });
     };
 
-    const editJob = () => {
+    const editJob = async () => {
         console.log('edit job');
     };
 
-    const deleteJob = (id: string) => {
-        console.log(`delete job: ${id}`);
+    const deleteJob = async (id: string) => {
+        dispatch({ type: AppActionTypes.DELETE_JOB_BEGIN });
+        try {
+            await authFetch.delete(`/jobs/${id}`);
+            getJobs();
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.log(err.response);
+                // logoutUser();
+            }
+        }
     };
 
     return (

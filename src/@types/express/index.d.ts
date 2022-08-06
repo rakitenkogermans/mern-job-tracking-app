@@ -16,8 +16,12 @@ import { Express } from 'express';
 //     }
 // }
 
+interface User {
+    userId: string;
+}
+
 interface Locals {
-    userId?: string;
+    user?: User;
 }
 
 declare module 'express' {
