@@ -19,7 +19,22 @@ const createJob: RequestHandler = async (req, res, next) => {
 };
 
 const deleteJob: RequestHandler = async (req, res, next) => {
-    res.send('delete job');
+    try {
+        const { id: jobId } = req.params;
+
+        const job = await Job.findOne({ _id: jobId });
+        if (!job) {
+            throw new NotFoundError(`No job with id: ${jobId}`);
+        }
+
+        chechPermissions(res.locals.user.userId, job.createdBy);
+
+        await job.remove();
+
+        res.status(StatusCodes.OK).json({ msg: 'Success! Job removed.' });
+    } catch (err) {
+        next(err);
+    }
 };
 
 const getAllJobs: RequestHandler = async (req, res, next) => {
