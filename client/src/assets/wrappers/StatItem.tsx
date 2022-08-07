@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.article`
+type WrapperProps = {
+    color: string;
+    bcg: string;
+};
+
+const Wrapper = styled.article<WrapperProps>`
     padding: 2rem;
     background: var(--white);
     border-radius: var(--borderRadius);
@@ -38,4 +43,4 @@ const Wrapper = styled.article`
     }
 `;
 
-export default Wrapper
+export default Wrapper;

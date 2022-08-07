@@ -3,6 +3,7 @@ import { BadRequestError, NotFoundError, UnAuthenticatedError } from '../errors'
 import Job from '../models/Job';
 import { StatusCodes } from '../constants/statusCodes';
 import { chechPermissions } from '../utils/chechPermissions';
+import { Types } from 'mongoose';
 
 const createJob: RequestHandler = async (req, res, next) => {
     try {
@@ -81,7 +82,28 @@ const updateJob: RequestHandler = async (req, res, next) => {
 };
 
 const showStats: RequestHandler = async (req, res, next) => {
-    res.send('show stats');
+    try {
+        let stats: any = await Job.aggregate([
+            { $match: { createdBy: new Types.ObjectId(res.locals.user.userId) } },
+            { $group: { _id: '$status', count: { $sum: 1 } } },
+        ]);
+        stats = stats.reduce((acc: any, value: any) => {
+            const { _id: title, count } = value;
+            acc[title] = count;
+            return acc;
+        }, {});
+
+        const defaultStats = {
+            pending: stats.pending || 0,
+            interview: stats?.interview || 0,
+            declined: stats?.declined || 0,
+        };
+
+        let monthlyApplications: any[] = [];
+        res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
+    } catch (err) {
+        next(err);
+    }
 };
 
 export { createJob, deleteJob, getAllJobs, updateJob, showStats };

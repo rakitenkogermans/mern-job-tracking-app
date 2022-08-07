@@ -1,6 +1,6 @@
 import { AppAction, AppActionTypes } from './actions';
 import React from 'react';
-import { JobTypeEnum, StateType, StatusEnum } from '../types/types';
+import { DefaultStats, JobTypeEnum, StateType, StatusEnum } from '../types/types';
 import { initialState } from './appContext';
 
 const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
@@ -171,6 +171,23 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             showAlert: true,
             alertType: 'danger',
             alertText: action.payload.msg,
+        };
+    }
+
+    if (action.type === AppActionTypes.SHOW_STATS_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+            showAlert: false,
+        };
+    }
+
+    if (action.type === AppActionTypes.SHOW_STATS_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            stats: action.payload.stats,
+            monthlyApplications: action.payload.monthlyApplications,
         };
     }
 

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import reducer from './reducer';
 import { AppActionTypes } from './actions';
-import { JobTypeEnum, ResponseJob, ResponseUser, SetupUserType, StateType, StatusEnum, User } from '../types/types';
+import { DefaultStats, JobTypeEnum, ResponseJob, ResponseStats, ResponseUser, SetupUserType, StateType, StatusEnum, User } from '../types/types';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 const user = localStorage.getItem('user');
@@ -44,6 +44,9 @@ const initialState: StateType = {
     setEditJob: function () {},
     deleteJob: async function () {},
     editJob: async function () {},
+    stats: {} as DefaultStats,
+    monthlyApplications: [],
+    showStats: async function () {},
 };
 
 const AppContext = createContext<StateType>(initialState);
@@ -226,6 +229,23 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         }
     };
 
+    const showStats = async () => {
+        dispatch({ type: AppActionTypes.SHOW_STATS_BEGIN });
+        try {
+            const { data } = await authFetch.get<ResponseStats>('jobs/stats');
+            dispatch({
+                type: AppActionTypes.SHOW_STATS_SUCCESS,
+                payload: { stats: data.defaultStats, monthlyApplications: data.monthlyApplications },
+            });
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.log(err.response);
+                // logoutUser();
+            }
+        }
+        clearAlert();
+    };
+
     return (
         <AppContext.Provider
             value={{
@@ -242,6 +262,7 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 setEditJob,
                 deleteJob,
                 editJob,
+                showStats,
             }}
         >
             {children}

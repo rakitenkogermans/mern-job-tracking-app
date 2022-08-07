@@ -69,6 +69,9 @@ export type StateType = {
     setEditJob: (id: string) => void;
     deleteJob: (id: string) => Promise<void>;
     editJob: () => Promise<void>;
+    stats: DefaultStats;
+    monthlyApplications: [];
+    showStats: () => Promise<void>;
 };
 
 export type JobType = {
@@ -88,6 +91,17 @@ export type ResponseJob = {
     jobs: JobType[];
     totalJobs: string;
     numOfPages: number | string;
+};
+
+export type ResponseStats = {
+    defaultStats: DefaultStats;
+    monthlyApplications: any[];
+};
+
+export type DefaultStats = {
+    pending: number;
+    interview: number;
+    declined: number;
 };
 
 export type SetupUserType = { currentUser: CurrentUser; endPoint: string; alertText: string };
