@@ -1,7 +1,18 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import reducer from './reducer';
 import { AppActionTypes } from './actions';
-import { DefaultStats, JobTypeEnum, ResponseJob, ResponseStats, ResponseUser, SetupUserType, StateType, StatusEnum, User } from '../types/types';
+import {
+    DateAndCount,
+    DefaultStats,
+    JobTypeEnum,
+    ResponseJob,
+    ResponseStats,
+    ResponseUser,
+    SetupUserType,
+    StateType,
+    StatusEnum,
+    User,
+} from '../types/types';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 const user = localStorage.getItem('user');

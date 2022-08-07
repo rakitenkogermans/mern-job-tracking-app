@@ -29,6 +29,7 @@
     "@types/morgan": "^1.9.3",
     "@types/node": "^18.0.6",
     "@types/validator": "^13.7.4",
+    "cloc": "^2.10.0",
     "concurrently": "^7.3.0",
     "nodemon": "^2.0.19",
     "ts-node": "^10.9.1",
