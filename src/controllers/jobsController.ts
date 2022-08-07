@@ -99,7 +99,34 @@ const showStats: RequestHandler = async (req, res, next) => {
             declined: stats?.declined || 0,
         };
 
-        let monthlyApplications: any[] = [];
+        let monthlyApplications: any[] = await Job.aggregate([
+            { $match: { createdBy: new Types.ObjectId(res.locals.user.userId) } },
+            {
+                $group: {
+                    _id: {
+                        year: {
+                            $year: '$createdAt',
+                        },
+                        month: {
+                            $month: '$createdAt',
+                        },
+                    },
+                    count: { $sum: 1 },
+                },
+            },
+            { $sort: { '_id.year': -1, '_id.month': -1 } },
+            { $limit: 6 },
+        ]);
+        monthlyApplications = monthlyApplications
+            .map((item) => {
+                const {
+                    _id: { year, month },
+                    count,
+                } = item;
+                const date = new Date(`${year}-${month}`).toLocaleDateString('en-us', { year: 'numeric', month: 'short' });
+                return { date, count };
+            })
+            .reverse();
         res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
     } catch (err) {
         next(err);
