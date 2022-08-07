@@ -32,7 +32,7 @@ const AddJob: React.FC<AddJobProps> = ({}) => {
             return;
         }
         if (isEditing) {
-            editJob();
+            await editJob();
             return;
         }
         await createJob();

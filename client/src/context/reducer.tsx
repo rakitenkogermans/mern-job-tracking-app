@@ -147,6 +147,33 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
         return { ...state, isLoading: true };
     }
 
+    if (action.type === AppActionTypes.EDIT_JOB_BEGIN) {
+        return {
+            ...state,
+            isLoading: true,
+        };
+    }
+
+    if (action.type === AppActionTypes.EDIT_JOB_SUCCESS) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'success',
+            alertText: 'Job Updated!',
+        };
+    }
+
+    if (action.type === AppActionTypes.EDIT_JOB_ERROR) {
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: action.payload.msg,
+        };
+    }
+
     throw new Error(`no such action :${action.type}`);
 };
 

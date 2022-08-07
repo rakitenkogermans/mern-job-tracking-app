@@ -117,7 +117,11 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             addUserToLocalStorage({ user, token, location });
         } catch (err) {
             console.log(err);
-            if (err instanceof AxiosError) dispatch({ type: AppActionTypes.SETUP_USER_ERROR, payload: { msg: err.response?.data.msg } });
+            if (err instanceof AxiosError)
+                dispatch({
+                    type: AppActionTypes.SETUP_USER_ERROR,
+                    payload: { msg: err.response?.data.msg },
+                });
         }
         clearAlert();
     };
@@ -194,7 +198,19 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
 
     const editJob = async () => {
-        console.log('edit job');
+        dispatch({ type: AppActionTypes.EDIT_JOB_BEGIN });
+        try {
+            const { company, position, jobLocation, jobType, status, editJobId } = state;
+            await authFetch.patch(`/jobs/${editJobId}`, { company, position, jobLocation, jobType, status });
+            dispatch({ type: AppActionTypes.EDIT_JOB_SUCCESS });
+            clearValues();
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                if (err.response?.status !== 401) {
+                    dispatch({ type: AppActionTypes.EDIT_JOB_ERROR, payload: { msg: err.response?.data.msg } });
+                }
+            }
+        }
     };
 
     const deleteJob = async (id: string) => {
