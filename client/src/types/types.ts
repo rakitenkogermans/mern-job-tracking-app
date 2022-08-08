@@ -92,6 +92,7 @@ export type StateType = {
     sort: SortOptionsEnum;
     sortOptions: typeof SortOptionsEnum;
     clearFilters: () => void;
+    changePage: (page: number) => void;
 };
 
 export type JobType = {

@@ -1,6 +1,6 @@
 import { AppAction, AppActionTypes } from './actions';
 import React from 'react';
-import { DefaultStats, JobTypeEnum, SearchAll, SortOptionsEnum, StateType, StatusEnum } from '../types/types';
+import { JobTypeEnum, SearchAll, SortOptionsEnum, StateType, StatusEnum } from '../types/types';
 import { initialState } from './appContext';
 
 const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
@@ -90,7 +90,7 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
     }
 
     if (action.type === AppActionTypes.HANDLE_CHANGE) {
-        return { ...state, [action.payload.name]: action.payload.value };
+        return { ...state, page: 1, [action.payload.name]: action.payload.value };
     }
 
     if (action.type === AppActionTypes.CLEAR_VALUES) {
@@ -193,6 +193,10 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
 
     if (action.type === AppActionTypes.CLEAR_FILTERS) {
         return { ...state, search: '', searchStatus: SearchAll.ALL, searchType: SearchAll.ALL, sort: SortOptionsEnum.LATEST };
+    }
+
+    if (action.type === AppActionTypes.CHANGE_PAGE) {
+        return { ...state, page: action.payload.page };
     }
 
     throw new Error(`no such action :${action.type}`);

@@ -65,6 +65,7 @@ const initialState: StateType = {
     sort: SortOptionsEnum.LATEST,
     sortOptions: SortOptionsEnum,
     clearFilters: function () {},
+    changePage: function () {},
 };
 
 const AppContext = createContext<StateType>(initialState);
@@ -200,8 +201,8 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
 
     const getJobs = async () => {
-        const { search, searchStatus, searchType, sort } = state;
-        let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+        const { search, searchStatus, searchType, sort, page } = state;
+        let url = `/jobs?page=${page}&status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
         if (search) {
             url += `&search=${search}`;
         }
@@ -272,6 +273,10 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         dispatch({ type: AppActionTypes.CLEAR_FILTERS });
     };
 
+    const changePage = (page: number) => {
+        dispatch({ type: AppActionTypes.CHANGE_PAGE, payload: { page } });
+    };
+
     return (
         <AppContext.Provider
             value={{
@@ -290,6 +295,7 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 editJob,
                 showStats,
                 clearFilters,
+                changePage,
             }}
         >
             {children}
