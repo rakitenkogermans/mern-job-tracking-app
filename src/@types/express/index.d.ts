@@ -1,12 +1,4 @@
-import { Express } from 'express';
-
-// declare global {
-//     namespace Express {
-//         interface Request {
-//             user?: number;
-//         }
-//     }
-// }
+import 'express';
 
 interface User {
     userId: string;
@@ -16,15 +8,7 @@ interface Locals {
     user?: User;
 }
 
-// declare global {
-//     namespace Express {
-//         interface Response {
-//             locals: User;
-//         }
-//     }
-// }
-
-declare module 'express-serve-static-core' {
+declare module 'express' {
     export interface Response {
         locals: Locals;
     }
