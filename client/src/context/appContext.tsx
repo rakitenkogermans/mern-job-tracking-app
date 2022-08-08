@@ -2,13 +2,14 @@ import React, { createContext, useContext, useReducer } from 'react';
 import reducer from './reducer';
 import { AppActionTypes } from './actions';
 import {
-    DateAndCount,
     DefaultStats,
     JobTypeEnum,
     ResponseJob,
     ResponseStats,
     ResponseUser,
+    SearchAll,
     SetupUserType,
+    SortOptionsEnum,
     StateType,
     StatusEnum,
     User,
@@ -58,6 +59,12 @@ const initialState: StateType = {
     stats: {} as DefaultStats,
     monthlyApplications: [],
     showStats: async function () {},
+    search: '',
+    searchStatus: SearchAll.ALL,
+    searchType: SearchAll.ALL,
+    sort: SortOptionsEnum.LATEST,
+    sortOptions: SortOptionsEnum,
+    clearFilters: function () {},
 };
 
 const AppContext = createContext<StateType>(initialState);
@@ -193,7 +200,11 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
 
     const getJobs = async () => {
-        let url = `/jobs`;
+        const { search, searchStatus, searchType, sort } = state;
+        let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+        if (search) {
+            url += `&search=${search}`;
+        }
         dispatch({ type: AppActionTypes.GET_JOB_BEGIN });
 
         try {
@@ -257,6 +268,10 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         clearAlert();
     };
 
+    const clearFilters = () => {
+        dispatch({ type: AppActionTypes.CLEAR_FILTERS });
+    };
+
     return (
         <AppContext.Provider
             value={{
@@ -274,6 +289,7 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 deleteJob,
                 editJob,
                 showStats,
+                clearFilters,
             }}
         >
             {children}

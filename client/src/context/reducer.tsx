@@ -1,6 +1,6 @@
 import { AppAction, AppActionTypes } from './actions';
 import React from 'react';
-import { DefaultStats, JobTypeEnum, StateType, StatusEnum } from '../types/types';
+import { DefaultStats, JobTypeEnum, SearchAll, SortOptionsEnum, StateType, StatusEnum } from '../types/types';
 import { initialState } from './appContext';
 
 const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
@@ -189,6 +189,10 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             stats: action.payload.stats,
             monthlyApplications: action.payload.monthlyApplications,
         };
+    }
+
+    if (action.type === AppActionTypes.CLEAR_FILTERS) {
+        return { ...state, search: '', searchStatus: SearchAll.ALL, searchType: SearchAll.ALL, sort: SortOptionsEnum.LATEST };
     }
 
     throw new Error(`no such action :${action.type}`);

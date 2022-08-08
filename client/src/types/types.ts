@@ -20,6 +20,10 @@ export type User = {
     name: string;
 };
 
+export enum SearchAll {
+    ALL = 'all',
+}
+
 export enum JobTypeEnum {
     FULL_TIME = 'full-time',
     PART_TIME = 'part-time',
@@ -31,6 +35,16 @@ export enum StatusEnum {
     PENDING = 'pending',
     INTERVIEW = 'interview',
     DECLINED = 'declined',
+}
+
+export type SearchJobTypeEnum = JobTypeEnum | SearchAll;
+export type SearchStatusEnum = StatusEnum | SearchAll;
+
+export enum SortOptionsEnum {
+    LATEST = 'latest',
+    OLDEST = 'oldest',
+    AZ = 'a-z',
+    ZA = 'z-a',
 }
 
 export type StateType = {
@@ -72,6 +86,12 @@ export type StateType = {
     stats: DefaultStats;
     monthlyApplications: DateAndCount[];
     showStats: () => Promise<void>;
+    search: string;
+    searchStatus: SearchStatusEnum;
+    searchType: SearchJobTypeEnum;
+    sort: SortOptionsEnum;
+    sortOptions: typeof SortOptionsEnum;
+    clearFilters: () => void;
 };
 
 export type JobType = {

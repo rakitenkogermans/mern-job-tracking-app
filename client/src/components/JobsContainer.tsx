@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useAppContext } from '../context/appContext';
 import Loading from './Loading';
 import Job from './Job';
@@ -7,19 +7,11 @@ import Wrapper from '../assets/wrappers/JobsContainer';
 type JobsContainerProps = {};
 
 const JobsContainer: React.FC<JobsContainerProps> = ({}) => {
-    const stopRunningUseEffectTwice = useRef(false);
-    const { getJobs, jobs, isLoading, page, totalJobs } = useAppContext();
+    const { getJobs, jobs, isLoading, page, totalJobs, search, searchStatus, searchType, sort } = useAppContext();
 
     useEffect(() => {
-        if (!stopRunningUseEffectTwice.current) {
-            console.log('ho');
-            getJobs().then();
-
-            return () => {
-                stopRunningUseEffectTwice.current = true;
-            };
-        }
-    }, []);
+        getJobs().then();
+    }, [search, searchType, searchStatus, sort]);
 
     if (isLoading) {
         return <Loading center={true} />;
