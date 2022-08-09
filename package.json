@@ -9,6 +9,7 @@
     "heroku-postbuild": "npm run install-client && npm run build-client",
     "build": "npx tsc",
     "client": "npm start --prefix client",
+    "postinstall": "npm run build",
     "server": "node dist/server.js",
     "start": "concurrently --kill-others-on-fail \" npm run dev\" \" npm run client\"",
     "dev": "concurrently \"npx tsc -w\" \"nodemon -q dist/server.js --ignore client\"",
@@ -49,7 +50,8 @@
     "mongoose": "^6.5.0",
     "morgan": "^1.10.0",
     "validator": "^13.7.0",
-    "xss-clean": "^0.1.1"
+    "xss-clean": "^0.1.1",
+    "typescript": "^4.7.4"
   },
   "engines": {
     "node": "16.x"
