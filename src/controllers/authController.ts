@@ -69,7 +69,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
         if (!name || !email || !lastName || !location) {
             throw new BadRequestError('Please provide all values');
         }
-        const user = await User.findOne({ _id: req.body.user.userId });
+        const user = await User.findOne({ _id: res.locals.user!.userId });
         if (!user) {
             throw new BadRequestError('Invalid token');
         }
