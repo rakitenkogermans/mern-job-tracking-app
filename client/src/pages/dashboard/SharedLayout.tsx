@@ -1,11 +1,11 @@
 import React from 'react';
 import Wrapper from '../../assets/wrappers/SharedLayout';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { BigSidebar, Navbar, SmallSidebar } from '../../components';
 
 type SharedLayoutProps = {};
 
-const SharedLayout: React.FC<SharedLayoutProps> = ({}) => {
+const SharedLayout: React.FC<SharedLayoutProps> = () => {
     return (
         <Wrapper>
             <main className="dashboard">

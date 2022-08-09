@@ -7,6 +7,11 @@ import morgan from 'morgan';
 import connectDB from './db/connect';
 import authRouter from './routes/authRoutes';
 import jobsRouter from './routes/jobsRoutes';
+import path from 'path';
+import helmet from 'helmet';
+// @ts-ignore
+import xss from 'xss-clean';
+import mongoSanitize from 'express-mongo-sanitize';
 
 dotenv.config();
 
@@ -17,14 +22,19 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'));
 }
 
-app.use(express.json());
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-app.get('/api/v1', (req: Request, res: Response) => {
-    res.send('Welcome.');
-});
+app.use(express.json());
+app.use(helmet());
+app.use(xss());
+app.use(mongoSanitize());
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
+
+app.get('*', (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

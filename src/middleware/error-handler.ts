@@ -4,7 +4,6 @@ import { Error } from 'mongoose';
 import { MongoError } from 'mongodb';
 
 const errorHandlerMiddleware = (err: Error.ValidationError | ErrorRequestHandler | MongoError, req: Request, res: Response, next: NextFunction) => {
-    console.log(err);
     const defaultError = {
         statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
         msg: err.message || 'Something went wrong, try again later',

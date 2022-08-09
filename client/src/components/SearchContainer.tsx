@@ -7,7 +7,7 @@ import { SearchAll } from '../types/types';
 
 type SearchContainerProps = {};
 
-const SearchContainer: React.FC<SearchContainerProps> = ({}) => {
+const SearchContainer: React.FC<SearchContainerProps> = () => {
     const { isLoading, search, searchStatus, searchType, sort, sortOptions, statusOptions, jobTypeOptions, handleChange, clearFilters } =
         useAppContext();
 

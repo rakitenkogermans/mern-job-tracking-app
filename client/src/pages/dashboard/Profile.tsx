@@ -19,7 +19,6 @@ const Profile: React.FC<ProfileProps> = ({}) => {
             return;
         }
         await updateUser({ name, email, lastName, location });
-        console.log('update user');
     };
     return (
         <Wrapper>

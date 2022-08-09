@@ -7,11 +7,12 @@ import { PageBtnContainer } from './PageBtnContainer';
 
 type JobsContainerProps = {};
 
-const JobsContainer: React.FC<JobsContainerProps> = ({}) => {
+const JobsContainer: React.FC<JobsContainerProps> = () => {
     const { getJobs, jobs, isLoading, page, totalJobs, search, searchStatus, searchType, sort, numOfPages } = useAppContext();
 
     useEffect(() => {
         getJobs().then();
+        // eslint-disable-next-line
     }, [search, searchType, searchStatus, sort, page]);
 
     if (isLoading) {

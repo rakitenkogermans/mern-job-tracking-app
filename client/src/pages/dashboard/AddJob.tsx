@@ -36,7 +36,6 @@ const AddJob: React.FC<AddJobProps> = ({}) => {
             return;
         }
         await createJob();
-        console.log('create job');
     };
 
     const handleJobInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

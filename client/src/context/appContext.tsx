@@ -97,7 +97,6 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             return response;
         },
         (err) => {
-            console.log(err);
             if (err.response.status === 401) {
                 logoutUser();
             }
@@ -138,7 +137,6 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             dispatch({ type: AppActionTypes.SETUP_USER_SUCCESS, payload: { user, token, location, alertText } });
             addUserToLocalStorage({ user, token, location });
         } catch (err) {
-            console.log(err);
             if (err instanceof AxiosError)
                 dispatch({
                     type: AppActionTypes.SETUP_USER_ERROR,
@@ -165,7 +163,6 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             dispatch({ type: AppActionTypes.UPDATE_USER_SUCCESS, payload: { user, token, location } });
             addUserToLocalStorage({ user, token, location });
         } catch (err) {
-            console.log(err);
             if (err instanceof AxiosError) {
                 if (err.response?.status !== 401) {
                     dispatch({ type: AppActionTypes.UPDATE_USER_ERROR, payload: { msg: err.response?.data.msg } });
@@ -214,7 +211,7 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             dispatch({ type: AppActionTypes.GET_JOB_SUCCESS, payload: { jobs, totalJobs, numOfPages } });
         } catch (err) {
             if (err instanceof AxiosError) {
-                console.log(err.response);
+                logoutUser();
             }
         }
     };
@@ -243,11 +240,10 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         dispatch({ type: AppActionTypes.DELETE_JOB_BEGIN });
         try {
             await authFetch.delete(`/jobs/${id}`);
-            getJobs();
+            await getJobs();
         } catch (err) {
             if (err instanceof AxiosError) {
-                console.log(err.response);
-                // logoutUser();
+                logoutUser();
             }
         }
     };
@@ -262,8 +258,7 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             });
         } catch (err) {
             if (err instanceof AxiosError) {
-                console.log(err.response);
-                // logoutUser();
+                logoutUser();
             }
         }
         clearAlert();
