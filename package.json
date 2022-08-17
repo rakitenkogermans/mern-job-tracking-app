@@ -4,15 +4,15 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build-client": "cd client && npm run build",
-    "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build-client",
-    "build": "npx tsc",
     "client": "npm start --prefix client",
-    "postinstall": "npm run build",
+    "install-client": "cd client && npm install",
+    "build-client": "cd client && npm run build",
+    "dev": "concurrently \"npx tsc -w\" \"nodemon -q dist/server.js --ignore client\"",
     "server": "node dist/server.js",
     "start": "concurrently --kill-others-on-fail \" npm run dev\" \" npm run client\"",
-    "dev": "concurrently \"npx tsc -w\" \"nodemon -q dist/server.js --ignore client\"",
+    "build": "npx tsc",
+    "heroku-postbuild": "npm run install-client && npm run build-client",
+    "postinstall": "npm run build",
     "mock": "ts-node src/populate.ts"
   },
   "repository": {
