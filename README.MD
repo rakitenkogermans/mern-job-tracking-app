@@ -17,7 +17,7 @@ password - adminadmin
 
 and for client:
   ```shell
-  $ npm install-client
+  $ npm run install-client
   ```
 
 2. Copy `.env.template` file to .env and make the necessary changes there.
@@ -55,7 +55,7 @@ Install server dependencies
 
 Install client dependencies
   ```shell
-  $ npm install-client
+  $ npm run install-client
   ```
 
 #### Development
