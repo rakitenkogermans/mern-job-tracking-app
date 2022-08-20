@@ -1,9 +1,9 @@
 import { AppAction, AppActionTypes } from './actions';
-import React from 'react';
+import { Reducer } from 'react';
 import { JobTypeEnum, SearchAll, SortOptionsEnum, StateType, StatusEnum } from '../types/types';
 import { initialState } from './appContext';
 
-const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
+const reducer: Reducer<StateType, AppAction> = (state, action) => {
     if (action.type === AppActionTypes.DISPLAY_ALERT) {
         return {
             ...state,

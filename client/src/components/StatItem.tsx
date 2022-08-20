@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import Wrapper from '../assets/wrappers/StatItem';
 
 type StatsItemProps = { count: number; title: string; icon: ReactNode; color: string; bcg: string };

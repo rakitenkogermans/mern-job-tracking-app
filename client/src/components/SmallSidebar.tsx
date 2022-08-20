@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import Wrapper from '../assets/wrappers/SmallSidebar';
 import { FaTimes } from 'react-icons/fa';
 import { useAppContext } from '../context/appContext';
@@ -7,7 +7,7 @@ import NavLinks from './NavLinks';
 
 type SmallSidebarProps = {};
 
-const SmallSidebar: React.FC<SmallSidebarProps> = ({}) => {
+const SmallSidebar: FC<SmallSidebarProps> = () => {
     const { showSidebar, toggleSidebar } = useAppContext();
     return (
         <Wrapper>

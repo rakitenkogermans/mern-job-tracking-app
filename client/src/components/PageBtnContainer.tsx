@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { useAppContext } from '../context/appContext';
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from 'react-icons/hi';

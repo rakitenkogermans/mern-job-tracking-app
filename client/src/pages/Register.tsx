@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/RegisterPage';
 import { Alert, FormRow, Logo } from '../components';
 import { useAppContext } from '../context/appContext';
@@ -24,11 +24,11 @@ const Register = () => {
         }
     }, [navigate, user]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setvalues({ ...values, [e.target.name]: e.target.value });
     };
 
-    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const { name, email, password, isMember } = values;
         if (!email || !password || (!isMember && !name)) {
@@ -37,9 +37,17 @@ const Register = () => {
         }
         const currentUser = { name, email, password };
         if (isMember) {
-            await setupUser({ currentUser, endPoint: 'login', alertText: 'Login successful! Redirecting...' });
+            await setupUser({
+                currentUser,
+                endPoint: 'login',
+                alertText: 'Login successful! Redirecting...',
+            });
         } else {
-            await setupUser({ currentUser, endPoint: 'register', alertText: 'User created! Redirecting...' });
+            await setupUser({
+                currentUser,
+                endPoint: 'register',
+                alertText: 'User created! Redirecting...',
+            });
         }
     };
 
@@ -53,9 +61,26 @@ const Register = () => {
                 <Logo />
                 <h3>{values.isMember ? 'Login' : 'Register'}</h3>
                 {showAlert && <Alert />}
-                {!values.isMember && <FormRow type="text" name="name" value={values.name} handleChange={handleChange} />}
-                <FormRow type="email" name="email" value={values.email} handleChange={handleChange} />
-                <FormRow type="password" name="password" value={values.password} handleChange={handleChange} />
+                {!values.isMember && (
+                    <FormRow
+                        type="text"
+                        name="name"
+                        value={values.name}
+                        handleChange={handleChange}
+                    />
+                )}
+                <FormRow
+                    type="email"
+                    name="email"
+                    value={values.email}
+                    handleChange={handleChange}
+                />
+                <FormRow
+                    type="password"
+                    name="password"
+                    value={values.password}
+                    handleChange={handleChange}
+                />
                 <button type="submit" className="btn btn-block" disabled={isLoading}>
                     submit
                 </button>

@@ -1,11 +1,11 @@
-import React from 'react';
+import { ChangeEvent, FC, MouseEvent } from 'react';
 import { FormRow, Alert, FormRowSelect } from '../../components';
 import { useAppContext } from '../../context/appContext';
 import Wrapper from '../../assets/wrappers/DashboardFormPage';
 
 type AddJobProps = {};
 
-const AddJob: React.FC<AddJobProps> = ({}) => {
+const AddJob: FC<AddJobProps> = () => {
     const {
         showAlert,
         displayAlert,
@@ -24,7 +24,7 @@ const AddJob: React.FC<AddJobProps> = ({}) => {
         editJob,
     } = useAppContext();
 
-    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         if (!position || !company || !jobLocation) {
@@ -38,7 +38,7 @@ const AddJob: React.FC<AddJobProps> = ({}) => {
         await createJob();
     };
 
-    const handleJobInput = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleJobInput = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const name = e.target.name;
         const value = e.target.value;
         handleChange(name, value);
@@ -50,10 +50,31 @@ const AddJob: React.FC<AddJobProps> = ({}) => {
                 <h3>{isEditing ? 'edit job' : 'add job'}</h3>
                 {showAlert && <Alert />}
                 <div className="form-center">
-                    <FormRow type="text" name="position" value={position} handleChange={handleJobInput} />
-                    <FormRow type="text" name="company" value={company} handleChange={handleJobInput} />
-                    <FormRow type="text" labeltText="job location" name="jobLocation" value={jobLocation} handleChange={handleJobInput} />
-                    <FormRowSelect name="status" value={status} handleChange={handleJobInput} list={Object.values(statusOptions)} />
+                    <FormRow
+                        type="text"
+                        name="position"
+                        value={position}
+                        handleChange={handleJobInput}
+                    />
+                    <FormRow
+                        type="text"
+                        name="company"
+                        value={company}
+                        handleChange={handleJobInput}
+                    />
+                    <FormRow
+                        type="text"
+                        labeltText="job location"
+                        name="jobLocation"
+                        value={jobLocation}
+                        handleChange={handleJobInput}
+                    />
+                    <FormRowSelect
+                        name="status"
+                        value={status}
+                        handleChange={handleJobInput}
+                        list={Object.values(statusOptions)}
+                    />
                     <FormRowSelect
                         labelText="job type"
                         name="jobType"
@@ -62,7 +83,12 @@ const AddJob: React.FC<AddJobProps> = ({}) => {
                         list={Object.values(jobTypeOptions)}
                     />
                     <div className="btn-container">
-                        <button className="btn btn-block submit-btn" type="submit" onClick={handleSubmit} disabled={isLoading}>
+                        <button
+                            className="btn btn-block submit-btn"
+                            type="submit"
+                            onClick={handleSubmit}
+                            disabled={isLoading}
+                        >
                             submit
                         </button>
                         <button

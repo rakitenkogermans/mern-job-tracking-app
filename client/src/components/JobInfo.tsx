@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import Wrapper from '../assets/wrappers/JobInfo';
 
 type JobInfoProps = { icon: ReactNode; text: string };
 
-const JobInfo: React.FC<JobInfoProps> = ({ icon, text }) => {
+const JobInfo: FC<JobInfoProps> = ({ icon, text }) => {
     return (
         <Wrapper>
             <span className="icon">{icon}</span>

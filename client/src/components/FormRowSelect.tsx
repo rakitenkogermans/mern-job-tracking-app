@@ -1,14 +1,14 @@
-import React from 'react';
+import { ChangeEvent, FC } from 'react';
 
 type FormRowSelectProps = {
     labelText?: string;
     name: string;
     value: string;
-    handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
     list: string[];
 };
 
-const FormRowSelect: React.FC<FormRowSelectProps> = ({ labelText, name, value, handleChange, list }) => {
+const FormRowSelect: FC<FormRowSelectProps> = ({ labelText, name, value, handleChange, list }) => {
     return (
         <div className="form-row">
             <label htmlFor={name} className="form-label">

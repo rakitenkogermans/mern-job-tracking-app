@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useAppContext } from '../context/appContext';
 import Loading from './Loading';
 import Job from './Job';
@@ -7,8 +7,19 @@ import { PageBtnContainer } from './PageBtnContainer';
 
 type JobsContainerProps = {};
 
-const JobsContainer: React.FC<JobsContainerProps> = () => {
-    const { getJobs, jobs, isLoading, page, totalJobs, search, searchStatus, searchType, sort, numOfPages } = useAppContext();
+const JobsContainer: FC<JobsContainerProps> = () => {
+    const {
+        getJobs,
+        jobs,
+        isLoading,
+        page,
+        totalJobs,
+        search,
+        searchStatus,
+        searchType,
+        sort,
+        numOfPages,
+    } = useAppContext();
 
     useEffect(() => {
         getJobs().then();

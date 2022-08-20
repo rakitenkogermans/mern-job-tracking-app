@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useAppContext } from '../context/appContext';
 import { StatItem } from '../components';
 import { FaSuitcaseRolling, FaCalendarCheck, FaBug } from 'react-icons/fa';
@@ -6,7 +6,7 @@ import Wrapper from '../assets/wrappers/StatsContainer';
 
 type StatsContainerProps = {};
 
-const StatsContainer: FC<StatsContainerProps> = ({}) => {
+const StatsContainer: FC<StatsContainerProps> = () => {
     const { stats } = useAppContext();
     const defaultStats = [
         {

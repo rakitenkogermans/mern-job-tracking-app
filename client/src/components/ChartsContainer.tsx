@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 
 import { BarChartComponent } from './BarChart';
 import { AreaChartComponent } from './AreaChart';
@@ -7,7 +7,7 @@ import Wrapper from '../assets/wrappers/ChartsContainer';
 
 type ChartsContainerProps = {};
 
-const ChartsContainer: FC<ChartsContainerProps> = ({}) => {
+const ChartsContainer: FC<ChartsContainerProps> = () => {
     const [barChart, setBarChart] = useState(true);
     const { monthlyApplications: data } = useAppContext();
     return (

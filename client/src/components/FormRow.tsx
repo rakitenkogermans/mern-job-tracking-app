@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 
 type FormRowProps = {
     type: string;
@@ -8,13 +8,7 @@ type FormRowProps = {
     labeltText?: string;
 };
 
-const FormRow: React.FC<FormRowProps> = ({
-    type,
-    name,
-    value,
-    handleChange,
-    labeltText,
-}) => {
+const FormRow: FC<FormRowProps> = ({ type, name, value, handleChange, labeltText }) => {
     return (
         <div className="form-row">
             <label htmlFor={name} className="form-label">

@@ -1,8 +1,8 @@
-import React from 'react';
+import { FC } from 'react';
 
 type LoadingProps = { center: boolean };
 
-const Loading: React.FC<LoadingProps> = ({ center }) => {
+const Loading: FC<LoadingProps> = ({ center }) => {
     return <div className={center ? 'loading loading-center' : 'loading'} />;
 };
 

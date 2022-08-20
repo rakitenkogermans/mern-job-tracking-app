@@ -1,7 +1,15 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { DateAndCount } from '../types/types';
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import {
+    ResponsiveContainer,
+    AreaChart,
+    Area,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+} from 'recharts';
 
 type AreaChartProps = { data: DateAndCount[] };
 

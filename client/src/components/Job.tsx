@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { JobType } from '../types/types';
 import { useAppContext } from '../context/appContext';
 import { FaLocationArrow, FaBriefcase, FaCalendarAlt } from 'react-icons/fa';
@@ -8,9 +8,23 @@ import { Link } from 'react-router-dom';
 
 type JobProps = {} & JobType;
 
-const Job: React.FC<JobProps> = ({ _id, jobType, jobLocation, createdAt, createdBy, position, status, updatedAt, company }) => {
+const Job: FC<JobProps> = ({
+    _id,
+    jobType,
+    jobLocation,
+    createdAt,
+    createdBy,
+    position,
+    status,
+    updatedAt,
+    company,
+}) => {
     const { setEditJob, deleteJob } = useAppContext();
-    const date = new Date(createdAt).toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' });
+    const date = new Date(createdAt).toLocaleDateString('en-us', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+    });
     return (
         <Wrapper>
             <header>
@@ -29,10 +43,18 @@ const Job: React.FC<JobProps> = ({ _id, jobType, jobLocation, createdAt, created
                 </div>
                 <footer>
                     <div className="actions">
-                        <Link to="/add-job" className="btn edit-btn" onClick={setEditJob.bind(null, _id)}>
+                        <Link
+                            to="/add-job"
+                            className="btn edit-btn"
+                            onClick={setEditJob.bind(null, _id)}
+                        >
                             Edit
                         </Link>
-                        <button type="button" className="btn delete-btn" onClick={deleteJob.bind(null, _id)}>
+                        <button
+                            type="button"
+                            className="btn delete-btn"
+                            onClick={deleteJob.bind(null, _id)}
+                        >
                             Delete
                         </button>
                     </div>

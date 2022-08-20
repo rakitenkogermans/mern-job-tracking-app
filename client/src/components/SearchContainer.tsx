@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent } from 'react';
+import { ChangeEvent, FC, MouseEvent } from 'react';
 
 import { FormRow, FormRowSelect } from '.';
 import { useAppContext } from '../context/appContext';
@@ -7,9 +7,19 @@ import { SearchAll } from '../types/types';
 
 type SearchContainerProps = {};
 
-const SearchContainer: React.FC<SearchContainerProps> = () => {
-    const { isLoading, search, searchStatus, searchType, sort, sortOptions, statusOptions, jobTypeOptions, handleChange, clearFilters } =
-        useAppContext();
+const SearchContainer: FC<SearchContainerProps> = () => {
+    const {
+        isLoading,
+        search,
+        searchStatus,
+        searchType,
+        sort,
+        sortOptions,
+        statusOptions,
+        jobTypeOptions,
+        handleChange,
+        clearFilters,
+    } = useAppContext();
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         if (isLoading) return;
@@ -47,8 +57,17 @@ const SearchContainer: React.FC<SearchContainerProps> = () => {
                     />
                     {/* sort */}
 
-                    <FormRowSelect name="sort" value={sort} handleChange={handleSearch} list={Object.values(sortOptions)} />
-                    <button className="btn btn-block btn-danger" disabled={isLoading} onClick={handleSubmit}>
+                    <FormRowSelect
+                        name="sort"
+                        value={sort}
+                        handleChange={handleSearch}
+                        list={Object.values(sortOptions)}
+                    />
+                    <button
+                        className="btn btn-block btn-danger"
+                        disabled={isLoading}
+                        onClick={handleSubmit}
+                    >
                         clear filters
                     </button>
                 </div>

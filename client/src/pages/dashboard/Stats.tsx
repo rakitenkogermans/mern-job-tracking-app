@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useAppContext } from '../../context/appContext';
 import { ChartsContainer, Loading, StatsContainer } from '../../components';
 
 type StatsProps = {};
 
-const Stats: React.FC<StatsProps> = ({}) => {
+const Stats: FC<StatsProps> = () => {
     const stopRunningUseEffectTwice = useRef(false);
     const { showStats, isLoading, monthlyApplications } = useAppContext();
 

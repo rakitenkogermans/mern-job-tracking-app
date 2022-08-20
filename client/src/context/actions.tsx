@@ -29,13 +29,10 @@ export enum AppActionTypes {
     CHANGE_PAGE = 'CHANGE_PAGE',
 }
 
-// type SetupUserSuccessPayload = {
-//     alertText: string;
-// } & ResponseUser;
-
 type AlertPayload = {
     alertText: string;
 };
+
 export type AppAction =
     | { type: AppActionTypes.DISPLAY_ALERT }
     | { type: AppActionTypes.CLEAR_ALERT }

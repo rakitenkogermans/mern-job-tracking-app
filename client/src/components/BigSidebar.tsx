@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { useAppContext } from '../context/appContext';
 import NavLinks from './NavLinks';
 import Logo from '../components/Logo';
@@ -6,7 +6,7 @@ import Wrapper from '../assets/wrappers/BigSidebar';
 
 type BigSidebarProps = {};
 
-const BigSidebar: React.FC<BigSidebarProps> = ({}) => {
+const BigSidebar: FC<BigSidebarProps> = () => {
     const { showSidebar } = useAppContext();
     return (
         <Wrapper>

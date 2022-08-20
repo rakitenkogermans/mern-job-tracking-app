@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import Wrapper from '../assets/wrappers/Navbar';
 import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa';
 import { useAppContext } from '../context/appContext';
@@ -6,7 +6,7 @@ import { Logo } from './index';
 
 type NavbarProps = {};
 
-const Navbar: React.FC<NavbarProps> = ({}) => {
+const Navbar: FC<NavbarProps> = () => {
     const [showLogout, setShowLogout] = useState(false);
     const { toggleSidebar, showSidebar, user, logoutUser } = useAppContext();
     const handleShowLogout = () => {

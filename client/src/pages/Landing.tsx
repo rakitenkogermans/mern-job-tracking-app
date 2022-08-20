@@ -1,4 +1,3 @@
-import React from 'react';
 import main from '../assets/images/main.svg';
 import Wrapper from '../assets/wrappers/LandingPage';
 import { Logo } from '../components';
@@ -16,11 +15,9 @@ const Landing = () => {
                         job <span>tracking</span> app
                     </h1>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Delectus ducimus incidunt itaque magnam quam
-                        voluptates. Eius nesciunt, nisi. Distinctio, ea
-                        exercitationem ipsa nihil omnis quaerat quia rem
-                        repudiandae sunt voluptas?
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus ducimus
+                        incidunt itaque magnam quam voluptates. Eius nesciunt, nisi. Distinctio, ea
+                        exercitationem ipsa nihil omnis quaerat quia rem repudiandae sunt voluptas?
                     </p>
                     <Link to="/register" className="btn btn-hero">
                         Login/Register

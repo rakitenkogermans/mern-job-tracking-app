@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Error, Register, Landing, ProtectedRoute } from './pages';
 import { AddJob, AllJobs, Profile, SharedLayout, Stats } from './pages/dashboard';
