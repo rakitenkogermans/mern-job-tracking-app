@@ -110,8 +110,8 @@ export type JobType = {
 
 export type ResponseJob = {
     jobs: JobType[];
-    totalJobs: string;
-    numOfPages: number | string;
+    totalJobs: number;
+    numOfPages: number;
 };
 
 export type ResponseStats = {

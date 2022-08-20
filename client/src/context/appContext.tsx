@@ -132,15 +132,21 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const setupUser = async ({ currentUser, endPoint, alertText }: SetupUserType) => {
         dispatch({ type: AppActionTypes.SETUP_USER_BEGIN });
         try {
-            const { data } = await axios.post<ResponseUser>(`/api/v1/auth/${endPoint}`, currentUser);
+            const { data } = await axios.post<ResponseUser>(
+                `/api/v1/auth/${endPoint}`,
+                currentUser
+            );
             const { user, token, location } = data;
-            dispatch({ type: AppActionTypes.SETUP_USER_SUCCESS, payload: { user, token, location, alertText } });
+            dispatch({
+                type: AppActionTypes.SETUP_USER_SUCCESS,
+                payload: { user, token, location, alertText },
+            });
             addUserToLocalStorage({ user, token, location });
         } catch (err) {
             if (err instanceof AxiosError)
                 dispatch({
                     type: AppActionTypes.SETUP_USER_ERROR,
-                    payload: { msg: err.response?.data.msg },
+                    payload: { alertText: err.response?.data.msg },
                 });
         }
         clearAlert();
@@ -160,12 +166,18 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         try {
             const { data } = await authFetch.patch<ResponseUser>('/auth/updateUser', currentUser);
             const { user, token, location } = data;
-            dispatch({ type: AppActionTypes.UPDATE_USER_SUCCESS, payload: { user, token, location } });
+            dispatch({
+                type: AppActionTypes.UPDATE_USER_SUCCESS,
+                payload: { user, token, location },
+            });
             addUserToLocalStorage({ user, token, location });
         } catch (err) {
             if (err instanceof AxiosError) {
                 if (err.response?.status !== 401) {
-                    dispatch({ type: AppActionTypes.UPDATE_USER_ERROR, payload: { msg: err.response?.data.msg } });
+                    dispatch({
+                        type: AppActionTypes.UPDATE_USER_ERROR,
+                        payload: { alertText: err.response?.data.msg },
+                    });
                 }
             }
         }
@@ -190,7 +202,10 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         } catch (err) {
             if (err instanceof AxiosError) {
                 if (err.response?.status !== 401) {
-                    dispatch({ type: AppActionTypes.CREATE_JOB_ERROR, payload: { msg: err.response?.data.msg } });
+                    dispatch({
+                        type: AppActionTypes.CREATE_JOB_ERROR,
+                        payload: { alertText: err.response?.data.msg },
+                    });
                 }
             }
         }
@@ -208,7 +223,10 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         try {
             const { data } = await authFetch.get<ResponseJob>(url);
             const { jobs, totalJobs, numOfPages } = data;
-            dispatch({ type: AppActionTypes.GET_JOB_SUCCESS, payload: { jobs, totalJobs, numOfPages } });
+            dispatch({
+                type: AppActionTypes.GET_JOB_SUCCESS,
+                payload: { jobs, totalJobs, numOfPages },
+            });
         } catch (err) {
             if (err instanceof AxiosError) {
                 logoutUser();
@@ -224,13 +242,22 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         dispatch({ type: AppActionTypes.EDIT_JOB_BEGIN });
         try {
             const { company, position, jobLocation, jobType, status, editJobId } = state;
-            await authFetch.patch(`/jobs/${editJobId}`, { company, position, jobLocation, jobType, status });
+            await authFetch.patch(`/jobs/${editJobId}`, {
+                company,
+                position,
+                jobLocation,
+                jobType,
+                status,
+            });
             dispatch({ type: AppActionTypes.EDIT_JOB_SUCCESS });
             clearValues();
         } catch (err) {
             if (err instanceof AxiosError) {
                 if (err.response?.status !== 401) {
-                    dispatch({ type: AppActionTypes.EDIT_JOB_ERROR, payload: { msg: err.response?.data.msg } });
+                    dispatch({
+                        type: AppActionTypes.EDIT_JOB_ERROR,
+                        payload: { alertText: err.response?.data.msg },
+                    });
                 }
             }
         }
@@ -254,7 +281,10 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             const { data } = await authFetch.get<ResponseStats>('jobs/stats');
             dispatch({
                 type: AppActionTypes.SHOW_STATS_SUCCESS,
-                payload: { stats: data.defaultStats, monthlyApplications: data.monthlyApplications },
+                payload: {
+                    stats: data.defaultStats,
+                    monthlyApplications: data.monthlyApplications,
+                },
             });
         } catch (err) {
             if (err instanceof AxiosError) {

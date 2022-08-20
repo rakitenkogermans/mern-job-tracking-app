@@ -1,3 +1,5 @@
+import { ResponseJob, ResponseStats, ResponseUser } from '../types/types';
+
 export enum AppActionTypes {
     DISPLAY_ALERT = 'SHOW_ALERT',
     CLEAR_ALERT = 'CLEAR_ALERT',
@@ -27,7 +29,43 @@ export enum AppActionTypes {
     CHANGE_PAGE = 'CHANGE_PAGE',
 }
 
-export interface AppAction {
-    type: AppActionTypes;
-    payload?: any;
-}
+// type SetupUserSuccessPayload = {
+//     alertText: string;
+// } & ResponseUser;
+
+type AlertPayload = {
+    alertText: string;
+};
+export type AppAction =
+    | { type: AppActionTypes.DISPLAY_ALERT }
+    | { type: AppActionTypes.CLEAR_ALERT }
+    | { type: AppActionTypes.SETUP_USER_BEGIN }
+    | { type: AppActionTypes.SETUP_USER_SUCCESS; payload: AlertPayload & ResponseUser }
+    | { type: AppActionTypes.SETUP_USER_ERROR; payload: AlertPayload }
+    | { type: AppActionTypes.TOGGLE_SIDEBAR }
+    | { type: AppActionTypes.LOGOUT_USER }
+    | { type: AppActionTypes.UPDATE_USER_BEGIN }
+    | { type: AppActionTypes.UPDATE_USER_SUCCESS; payload: ResponseUser }
+    | { type: AppActionTypes.UPDATE_USER_ERROR; payload: AlertPayload }
+    | { type: AppActionTypes.HANDLE_CHANGE; payload: { name: string; value: string } }
+    | { type: AppActionTypes.CLEAR_VALUES }
+    | { type: AppActionTypes.CREATE_JOB_BEGIN }
+    | { type: AppActionTypes.CREATE_JOB_SUCCESS }
+    | { type: AppActionTypes.CREATE_JOB_ERROR; payload: AlertPayload }
+    | { type: AppActionTypes.GET_JOB_BEGIN }
+    | { type: AppActionTypes.GET_JOB_SUCCESS; payload: ResponseJob }
+    | { type: AppActionTypes.SET_EDIT_JOB; payload: { id: string } }
+    | { type: AppActionTypes.EDIT_JOB_BEGIN }
+    | { type: AppActionTypes.EDIT_JOB_SUCCESS }
+    | { type: AppActionTypes.EDIT_JOB_ERROR; payload: AlertPayload }
+    | { type: AppActionTypes.DELETE_JOB_BEGIN }
+    | { type: AppActionTypes.SHOW_STATS_BEGIN }
+    | {
+          type: AppActionTypes.SHOW_STATS_SUCCESS;
+          payload: {
+              stats: ResponseStats['defaultStats'];
+              monthlyApplications: ResponseStats['monthlyApplications'];
+          };
+      }
+    | { type: AppActionTypes.CLEAR_FILTERS }
+    | { type: AppActionTypes.CHANGE_PAGE; payload: { page: number } };

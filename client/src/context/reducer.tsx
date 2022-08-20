@@ -46,7 +46,7 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             isLoading: false,
             showAlert: true,
             alertType: 'danger',
-            alertText: action.payload.msg,
+            alertText: action.payload.alertText,
         };
     }
 
@@ -74,7 +74,7 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             isLoading: false,
             showAlert: true,
             alertType: 'danger',
-            alertText: action.payload.msg,
+            alertText: action.payload.alertText,
         };
     }
 
@@ -124,7 +124,7 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             isLoading: false,
             showAlert: true,
             alertType: 'danger',
-            alertText: action.payload.msg,
+            alertText: action.payload.alertText,
         };
     }
 
@@ -133,14 +133,29 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
     }
 
     if (action.type === AppActionTypes.GET_JOB_SUCCESS) {
-        return { ...state, isLoading: false, jobs: action.payload.jobs, totalJobs: action.payload.totalJobs, numOfPages: action.payload.numOfPages };
+        return {
+            ...state,
+            isLoading: false,
+            jobs: action.payload.jobs,
+            totalJobs: action.payload.totalJobs,
+            numOfPages: action.payload.numOfPages,
+        };
     }
 
     if (action.type === AppActionTypes.SET_EDIT_JOB) {
         const job = state.jobs.find((job) => job._id === action.payload.id);
         if (!job) return { ...state };
         const { _id, company, position, jobType, status, jobLocation } = job;
-        return { ...state, isEditing: true, editJobId: _id, company, position, jobType, status, jobLocation };
+        return {
+            ...state,
+            isEditing: true,
+            editJobId: _id,
+            company,
+            position,
+            jobType,
+            status,
+            jobLocation,
+        };
     }
 
     if (action.type === AppActionTypes.DELETE_JOB_BEGIN) {
@@ -170,7 +185,7 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
             isLoading: false,
             showAlert: true,
             alertType: 'danger',
-            alertText: action.payload.msg,
+            alertText: action.payload.alertText,
         };
     }
 
@@ -192,14 +207,20 @@ const reducer: React.Reducer<StateType, AppAction> = (state, action) => {
     }
 
     if (action.type === AppActionTypes.CLEAR_FILTERS) {
-        return { ...state, search: '', searchStatus: SearchAll.ALL, searchType: SearchAll.ALL, sort: SortOptionsEnum.LATEST };
+        return {
+            ...state,
+            search: '',
+            searchStatus: SearchAll.ALL,
+            searchType: SearchAll.ALL,
+            sort: SortOptionsEnum.LATEST,
+        };
     }
 
     if (action.type === AppActionTypes.CHANGE_PAGE) {
         return { ...state, page: action.payload.page };
     }
 
-    throw new Error(`no such action :${action.type}`);
+    throw new Error(`no such action`);
 };
 
 export default reducer;
