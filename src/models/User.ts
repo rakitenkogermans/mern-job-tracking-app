@@ -1,7 +1,6 @@
-import { Schema, model } from 'mongoose';
+import { CallbackWithoutResultAndOptionalError, model, Schema } from 'mongoose';
 import { IUserModel } from '../types/User';
 import validator from 'validator';
-import { NextFunction } from 'express';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
@@ -42,8 +41,7 @@ const UserSchema: Schema = new Schema<IUserModel>({
     },
 });
 
-// @ts-ignore
-UserSchema.pre('save', async function (this: IUserModel, next: NextFunction) {
+UserSchema.pre('save', async function (this: IUserModel, next: CallbackWithoutResultAndOptionalError) {
     if (!this.isModified('password')) return;
     const salt = await genSalt(10);
     this.password = await hash(this.password, salt);
@@ -59,8 +57,7 @@ UserSchema.methods.createJWT = function () {
 
 UserSchema.methods.comparePassword = async function (candidatePassword: string) {
     const user = this as IUserModel;
-    const isMatch = await compare(candidatePassword, user.password);
-    return isMatch;
+    return await compare(candidatePassword, user.password);
 };
 
 export default model<IUserModel>('User', UserSchema);
