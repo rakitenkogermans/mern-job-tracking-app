@@ -1,7 +1,7 @@
 # MERN Job Tracking Application
 
 <a href="https://mern-job-tracking.onrender.com/" style="color:#43cea2; font-size: 32px; font-weight: 900;">Hosted
-on Heroku 🔗 </a>
+on Render 🔗 </a>
 
 login - admin@admin.com
 
