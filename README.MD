@@ -1,7 +1,7 @@
 # MERN Job Tracking Application
 
-<a href="https://mern-job-tracking.herokuapp.com/" style="color:#43cea2; font-size: 32px; font-weight: 900;">Hosted on Heroku 🔗
-</a>
+<a href="https://mern-job-tracking.onrender.com/" style="color:#43cea2; font-size: 32px; font-weight: 900;">Hosted
+on Heroku 🔗 </a>
 
 login - admin@admin.com
 
@@ -11,37 +11,37 @@ password - adminadmin
 
 1. To install server dependencies run:
 
-  ```shell
-  $ npm install
-  ```
+```shell
+$ npm install
+```
 
 and for client:
-  ```shell
-  $ npm run install-client
-  ```
+
+```shell
+$ npm run install-client
+```
 
 2. Copy `.env.template` file to .env and make the necessary changes there.
 
-
 3. Run server and client in development mode.
 
-  ```shell
-  $ npm start
-  ```
+```shell
+$ npm start
+```
 
 ## Features
 
-* ReactJS
-* React Router
-* Styled components
-* Axios
-* Context API
-* Recharts
-* TypeScript (server and client)
-* NodeJS
-* ExpressJS
-* MongoDB / Mongoose
-* JWT Authorization
+-   ReactJS
+-   React Router
+-   Styled components
+-   Axios
+-   Context API
+-   Recharts
+-   TypeScript (server and client)
+-   NodeJS
+-   ExpressJS
+-   MongoDB / Mongoose
+-   JWT Authorization
 
 ## Command Line Commands
 
@@ -49,22 +49,23 @@ and for client:
 
 Install server dependencies
 
-  ```shell
-  $ npm install
-  ```
+```shell
+$ npm install
+```
 
 Install client dependencies
-  ```shell
-  $ npm run install-client
-  ```
+
+```shell
+$ npm run install-client
+```
 
 #### Development
 
 Run server
 
-  ```shell
-  $ npm run dev
-  ```
+```shell
+$ npm run dev
+```
 
 Run client
 
@@ -82,9 +83,9 @@ $ npm start
 
 Build server
 
-  ```shell
-  $ npm run build
-  ```
+```shell
+$ npm run build
+```
 
 Build client
 
@@ -96,6 +97,6 @@ $ npm run build-client
 
 Run server in production mode
 
-  ```shell
-  $ npm run server
-  ```
+```shell
+$ npm run server
+```
