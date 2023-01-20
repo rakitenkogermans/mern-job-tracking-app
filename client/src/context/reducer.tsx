@@ -30,7 +30,7 @@ const reducer: Reducer<StateType, AppAction> = (state, action) => {
         return {
             ...state,
             isLoading: false,
-            token: action.payload?.token || null,
+            // token: action.payload?.token || null,
             user: action.payload?.user || null,
             userLocation: action.payload?.location || '',
             jobLocation: action.payload?.location || '',
@@ -58,7 +58,7 @@ const reducer: Reducer<StateType, AppAction> = (state, action) => {
         return {
             ...state,
             isLoading: false,
-            token: action.payload?.token || null,
+            // token: action.payload?.token || null,
             user: action.payload?.user || null,
             userLocation: action.payload?.location || '',
             jobLocation: action.payload?.location || '',
@@ -86,7 +86,7 @@ const reducer: Reducer<StateType, AppAction> = (state, action) => {
     }
 
     if (action.type === AppActionTypes.LOGOUT_USER) {
-        return { ...initialState, user: null, token: null, userLocation: '', jobLocation: '' };
+        return { ...initialState, userLoading: false };
     }
 
     if (action.type === AppActionTypes.HANDLE_CHANGE) {
@@ -218,6 +218,20 @@ const reducer: Reducer<StateType, AppAction> = (state, action) => {
 
     if (action.type === AppActionTypes.CHANGE_PAGE) {
         return { ...state, page: action.payload.page };
+    }
+
+    if (action.type === AppActionTypes.GET_CURRENT_USER_BEGIN) {
+        return { ...state, userLoading: true, showAlert: false };
+    }
+
+    if (action.type === AppActionTypes.GET_CURRENT_USER_SUCCESS) {
+        return {
+            ...state,
+            userLoading: false,
+            user: action.payload.user,
+            userLocation: action.payload.location,
+            jobLocation: action.payload.location,
+        };
     }
 
     throw new Error(`no such action`);

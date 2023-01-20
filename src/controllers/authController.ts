@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import User from '../models/User';
 import { StatusCodes } from '../constants/statusCodes';
 import { BadRequestError, UnAuthenticatedError } from '../errors';
+import { attachCookie } from '../utils/attachCookie';
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -18,6 +19,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
             throw new UnAuthenticatedError('Invalid credentials');
         }
         const token = user.createJWT();
+        attachCookie({ name: 'token', token, res });
 
         res.status(StatusCodes.OK).json({
             user: {
@@ -27,7 +29,6 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
                 location: user.location,
                 name: user.name,
             },
-            token,
             location: user.location,
         });
     } catch (err) {
@@ -47,6 +48,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
         }
         const user = await User.create({ name, email, password });
         const token = user.createJWT();
+        attachCookie({ name: 'token', token, res });
         res.status(StatusCodes.CREATED).json({
             user: {
                 _id: user._id,
@@ -55,7 +57,6 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
                 location: user.location,
                 name: user.name,
             },
-            token,
             location: user.location,
         });
     } catch (err) {
@@ -81,6 +82,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
         await user.save();
 
         const token = user.createJWT();
+        attachCookie({ name: 'token', token, res });
 
         res.status(StatusCodes.OK).json({
             user: {
@@ -90,7 +92,6 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
                 location: user.location,
                 name: user.name,
             },
-            token,
             location: user.location,
         });
     } catch (err) {
@@ -98,4 +99,17 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export { login, register, updateUser };
+const getCurrentUser = async (req: Request, res: Response) => {
+    const user = await User.findOne({ _id: res.locals.user!.userId });
+    res.status(StatusCodes.OK).json({ user, location: res.locals.user!.userId });
+};
+
+const logout = async (req: Request, res: Response) => {
+    res.cookie('token', 'logout', {
+        httpOnly: true,
+        expires: new Date(Date.now()),
+    });
+    res.status(StatusCodes.OK).json({ msg: 'user logged out!' });
+};
+
+export { login, register, updateUser, getCurrentUser, logout };

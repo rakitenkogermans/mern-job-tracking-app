@@ -12,6 +12,7 @@ import helmet from 'helmet';
 // @ts-ignore
 import xss from 'xss-clean';
 import mongoSanitize from 'express-mongo-sanitize';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());

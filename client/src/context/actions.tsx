@@ -27,6 +27,8 @@ export enum AppActionTypes {
     SHOW_STATS_SUCCESS = 'SHOW_STATS_SUCCESS',
     CLEAR_FILTERS = 'CLEAR_FILTERS',
     CHANGE_PAGE = 'CHANGE_PAGE',
+    GET_CURRENT_USER_BEGIN = 'GET_CURRENT_USER_BEGIN',
+    GET_CURRENT_USER_SUCCESS = 'GET_CURRENT_USER_SUCCESS',
 }
 
 type AlertPayload = {
@@ -65,4 +67,6 @@ export type AppAction =
           };
       }
     | { type: AppActionTypes.CLEAR_FILTERS }
-    | { type: AppActionTypes.CHANGE_PAGE; payload: { page: number } };
+    | { type: AppActionTypes.CHANGE_PAGE; payload: { page: number } }
+    | { type: AppActionTypes.GET_CURRENT_USER_BEGIN }
+    | { type: AppActionTypes.GET_CURRENT_USER_SUCCESS; payload: ResponseUser };

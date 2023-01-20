@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useEffect, useReducer } from 'react';
 import reducer from './reducer';
 import { AppActionTypes } from './actions';
 import {
@@ -14,22 +14,23 @@ import {
     StatusEnum,
     User,
 } from '../types/types';
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError } from 'axios';
 
-const user = localStorage.getItem('user');
-const token = localStorage.getItem('token');
-const userLocation = localStorage.getItem('location');
+// const user = localStorage.getItem('user');
+// const token = localStorage.getItem('token');
+// const userLocation = localStorage.getItem('location');
 
 const initialState: StateType = {
+    userLoading: true,
     isLoading: false,
     showAlert: false,
     alertText: '',
     alertType: null,
     displayAlert: function () {},
     setupUser: async function () {},
-    user: user ? JSON.parse(user) : null,
-    token: token,
-    userLocation: userLocation || '',
+    user: null,
+    // token: token,
+    userLocation: '',
 
     showSidebar: false,
     toggleSidebar: function () {},
@@ -40,7 +41,7 @@ const initialState: StateType = {
     editJobId: '',
     position: '',
     company: '',
-    jobLocation: userLocation || '',
+    jobLocation: '',
     jobTypeOptions: JobTypeEnum,
     jobType: JobTypeEnum.FULL_TIME,
     statusOptions: StatusEnum,
@@ -73,23 +74,27 @@ const AppContext = createContext<StateType>(initialState);
 const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
+    useEffect(() => {
+        getCurrentUser();
+    }, []);
+
     const authFetch = axios.create({
         baseURL: '/api/v1',
     });
 
     // request
-    authFetch.interceptors.request.use(
-        (config: AxiosRequestConfig) => {
-            if (!config.headers) {
-                config.headers = {};
-            }
-            config.headers['Authorization'] = `Bearer ${state.token}`;
-            return config;
-        },
-        (err) => {
-            return Promise.reject(err);
-        }
-    );
+    // authFetch.interceptors.request.use(
+    //     (config: AxiosRequestConfig) => {
+    //         if (!config.headers) {
+    //             config.headers = {};
+    //         }
+    //         config.headers['Authorization'] = `Bearer ${state.token}`;
+    //         return config;
+    //     },
+    //     (err) => {
+    //         return Promise.reject(err);
+    //     }
+    // );
 
     // response
     authFetch.interceptors.response.use(
@@ -117,17 +122,17 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         }, 5000);
     };
 
-    const addUserToLocalStorage = ({ user, token, location }: ResponseUser) => {
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('token', token);
-        localStorage.setItem('location', location);
-    };
+    // const addUserToLocalStorage = ({ user, token, location }: ResponseUser) => {
+    //     localStorage.setItem('user', JSON.stringify(user));
+    //     localStorage.setItem('token', token);
+    //     localStorage.setItem('location', location);
+    // };
 
-    const removeUserFromLocalStorage = () => {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        localStorage.removeItem('location');
-    };
+    // const removeUserFromLocalStorage = () => {
+    //     localStorage.removeItem('user');
+    //     localStorage.removeItem('token');
+    //     localStorage.removeItem('location');
+    // };
 
     const setupUser = async ({ currentUser, endPoint, alertText }: SetupUserType) => {
         dispatch({ type: AppActionTypes.SETUP_USER_BEGIN });
@@ -136,12 +141,12 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 `/api/v1/auth/${endPoint}`,
                 currentUser
             );
-            const { user, token, location } = data;
+            const { user, location } = data;
             dispatch({
                 type: AppActionTypes.SETUP_USER_SUCCESS,
-                payload: { user, token, location, alertText },
+                payload: { user, location, alertText },
             });
-            addUserToLocalStorage({ user, token, location });
+            // addUserToLocalStorage({ user, token, location });
         } catch (err) {
             if (err instanceof AxiosError)
                 dispatch({
@@ -156,21 +161,22 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         dispatch({ type: AppActionTypes.TOGGLE_SIDEBAR });
     };
 
-    const logoutUser = () => {
+    const logoutUser = async () => {
+        await authFetch.get('/auth/logout');
         dispatch({ type: AppActionTypes.LOGOUT_USER });
-        removeUserFromLocalStorage();
+        // removeUserFromLocalStorage();
     };
 
     const updateUser = async (currentUser: User) => {
         dispatch({ type: AppActionTypes.UPDATE_USER_BEGIN });
         try {
             const { data } = await authFetch.patch<ResponseUser>('/auth/updateUser', currentUser);
-            const { user, token, location } = data;
+            const { user, location } = data;
             dispatch({
                 type: AppActionTypes.UPDATE_USER_SUCCESS,
-                payload: { user, token, location },
+                payload: { user, location },
             });
-            addUserToLocalStorage({ user, token, location });
+            // addUserToLocalStorage({ user, token, location });
         } catch (err) {
             if (err instanceof AxiosError) {
                 if (err.response?.status !== 401) {
@@ -300,6 +306,24 @@ const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const changePage = (page: number) => {
         dispatch({ type: AppActionTypes.CHANGE_PAGE, payload: { page } });
+    };
+
+    const getCurrentUser = async () => {
+        dispatch({ type: AppActionTypes.GET_CURRENT_USER_BEGIN });
+        try {
+            const { data } = await authFetch('/auth/getCurrentUser');
+            const { user, location } = data;
+
+            dispatch({
+                type: AppActionTypes.GET_CURRENT_USER_SUCCESS,
+                payload: { user, location },
+            });
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                if (err.response?.status === 401) return;
+                logoutUser();
+            }
+        }
     };
 
     return (

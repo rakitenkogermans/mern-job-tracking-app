@@ -3,7 +3,7 @@ export type UserId = {
 };
 export type ResponseUser = {
     user: User & UserId;
-    token: string;
+    // token: string;
     location: string;
 };
 
@@ -48,6 +48,7 @@ export enum SortOptionsEnum {
 }
 
 export type StateType = {
+    userLoading: boolean;
     isLoading: boolean;
     showAlert: boolean;
     alertText: string;
@@ -55,7 +56,7 @@ export type StateType = {
     displayAlert: () => void;
     setupUser: ({ currentUser, endPoint, alertText }: SetupUserType) => Promise<void>;
     user: User | null;
-    token: string | null;
+    // token: string | null;
     userLocation: string;
 
     showSidebar: boolean;
