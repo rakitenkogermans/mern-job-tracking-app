@@ -23,7 +23,7 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'));
 }
 
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+// app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.use(express.json());
 app.use(cookieParser());
@@ -34,9 +34,9 @@ app.use(mongoSanitize());
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', authenticateUser, jobsRouter);
 
-app.get('*', (req: Request, res: Response) => {
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
+// app.get('*', (req: Request, res: Response) => {
+//     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+// });
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
