@@ -1,7 +1,6 @@
 # MERN Job Tracking Application
 
-<a href="https://mern-job-tracking.onrender.com/" style="color:#43cea2; font-size: 32px; font-weight: 900;">Hosted
-on Render 🔗 </a>
+Available at - https://jobify.germans.dev
 
 login - admin@admin.com
 
