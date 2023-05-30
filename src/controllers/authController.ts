@@ -100,7 +100,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const getCurrentUser = async (req: Request, res: Response) => {
-    const user = await User.findOne({ _id: res.locals.user!.userId });
+    const user = await User.findOne({ _id: res.locals?.user.userId });
     res.status(StatusCodes.OK).json({ user, location: res.locals.user!.userId });
 };
 
